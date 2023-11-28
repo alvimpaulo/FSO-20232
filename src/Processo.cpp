@@ -1,4 +1,5 @@
 #include "Processo.hpp"
+#include "iostream"
 
 Processo::Processo(int id, int startTime, int timeLeft,
                    int priority,
@@ -15,21 +16,19 @@ Processo::Processo(int id, int startTime, int timeLeft,
 {
 }
 
-void Processo::spend1Time()
-{
-    {
-        if (timeLeft > 0)
-        {
-            timeLeft--;
-        }
-    }
-}
-
 void Processo::setProcessoIsPronto(bool newState)
 {
     this->isPronto = newState;
 }
 
-void Processo::run(){
-    
+Processo* Processo::run(int cpuTime){
+    this->timeLeft--;
+    std::cout << "Rodou o processo de id " << this->id << " faltam: " << this->timeLeft << " operações" << std::endl;
+    //FAZER IO E ARQUIVOS AQUI
+
+    return this;
+}
+
+bool Processo::hasDied(){
+    return this->timeLeft <= 0;
 }

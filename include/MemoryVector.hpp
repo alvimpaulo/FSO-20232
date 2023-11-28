@@ -11,4 +11,5 @@ public:
     int size;
 
     void splitMemory(int index, MemorySpace mem1, MemorySpace mem2);
+    void joinMemory(int index, MemorySpace mem1, MemorySpace mem2);
 };

@@ -15,7 +15,7 @@ bool sortProcessos(Processo a, Processo b)
 int main()
 {
     unsigned long long cpuTime = 0;
-    unsigned long long lastStartedProcessID =0;
+    unsigned long long lastStartedProcessID = 0;
 
     auto processManager = ProcessoManager();
 
@@ -36,7 +36,7 @@ int main()
 
     sort(processosParaAlocar.begin(), processosParaAlocar.end(), sortProcessos);
 
-    while (processosParaAlocar.empty() == false)
+    while (processosParaAlocar.empty() == false || processManager.getProcessosAlocados().size() > 0)
     {
         std::deque<Processo> processosStartadosAgora;
         while (!processosParaAlocar.empty() && processosParaAlocar.front().startTime <= cpuTime)
@@ -51,35 +51,35 @@ int main()
 
             if (newProcess.priority == 0)
             {
-                auto resultAlocation = (processManager.alocarProcessoTempoReal(newProcess));
+                auto resultAlocation = (processManager.alocarMemoriaProcessoTempoReal(newProcess));
 
                 if (resultAlocation == false)
                 {
-                    cout << "Não consegui alocar o processo de id " << newProcess.id << " porque não havia espaço na memoria de tempo-real" << endl;
+                    cout << "Não consegui alocar o processo de tempo real de id: " << newProcess.id << " porque não havia espaço na memoria de tempo-real" << endl;
                 }
                 else
                 {
-                    cout << "Startei o processo de id " << newProcess.id << " no tempo: " << cpuTime << endl;
+                    cout << "Startei o processo de tempo real de id: " << newProcess.id << " no tempo: " << cpuTime << endl;
+                    processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
             else
             {
-                auto resultAlocation = processManager.alocarProcessoUsuario(newProcess);
+                auto resultAlocation = processManager.alocarMemoriaProcessoUsuario(newProcess);
 
                 if (resultAlocation == false)
                 {
 
-                    cout << "Não consegui alocar o processo de id " << newProcess.id << " porque não havia espaço na memoria de usuario" << endl;
+                    cout << "Não consegui alocar o processo de id: " << newProcess.id << " porque não havia espaço na memoria de usuario" << endl;
                 }
                 else
                 {
-                    cout << "Startei o processo de id " << newProcess.id << " no tempo: " << cpuTime << endl;
+                    cout << "Startei o processo de usuário de id: " << newProcess.id << " no tempo: " << cpuTime << endl;
                 }
             }
         }
 
-        
-
+        processManager.run(cpuTime);
         cpuTime++;
     }
 

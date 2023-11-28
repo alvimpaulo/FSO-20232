@@ -22,7 +22,7 @@ public:
     int disk;
     int isPronto;
 
-    void spend1Time();
     void setProcessoIsPronto(bool newState);
-    void run();
+    Processo* run(int cpuTime);
+    bool hasDied();
 };
