@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/trab.dir/src/main.cpp.o -o trab  libTrabSO.a 

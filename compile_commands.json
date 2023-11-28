@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -std=c++14 -o CMakeFiles/TrabSO.dir/src/Processo.cpp.o -c /home/paulo/unb/FSO-2/trab/src/Processo.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/Processo.cpp",
+  "output": "CMakeFiles/TrabSO.dir/src/Processo.cpp.o"
+},
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -std=c++14 -o CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o -c /home/paulo/unb/FSO-2/trab/src/ProcessoManager.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/ProcessoManager.cpp",
+  "output": "CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o"
+},
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -std=c++14 -o CMakeFiles/TrabSO.dir/src/main.cpp.o -c /home/paulo/unb/FSO-2/trab/src/main.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/main.cpp",
+  "output": "CMakeFiles/TrabSO.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -std=c++14 -o CMakeFiles/trab.dir/src/main.cpp.o -c /home/paulo/unb/FSO-2/trab/src/main.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/main.cpp",
+  "output": "CMakeFiles/trab.dir/src/main.cpp.o"
+}
+]

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libTrabSO.a CMakeFiles/TrabSO.dir/src/Processo.cpp.o CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o CMakeFiles/TrabSO.dir/src/main.cpp.o
+/usr/bin/ranlib libTrabSO.a
