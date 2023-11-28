@@ -42,3 +42,14 @@ _deps
 *.exe
 *.out
 *.app
+
+#Build
+build/**
+build/
+
+#My files 
+libTrabSO.a
+Makefile
+compile_commands.json
+trab
+.vscode
