@@ -17,7 +17,7 @@ FileManager::FileManager(int size, int blockSize): storage(size, std::pair<int, 
     this->blockSize = blockSize;
 }
 
-int CreateFile(std::vector<bool> data){
+int FileManager::CreateFile(std::vector<bool> data){
     int fileSizeInBlocks = data.size() / blockSize;
     if((data.size() % blockSize) > 0){
         fileSizeInBlocks++;
@@ -62,7 +62,7 @@ int CreateFile(std::vector<bool> data){
     return result;
 }
 
-bool DeleteFile(int address, int size){
+bool FileManager::DeleteFile(int address, int size){
     //verificando a validade da requisicao de delete
     for(int i = 0; i < size; ++i){
         if(!(storage.at(address + i).first)){
@@ -82,7 +82,7 @@ bool DeleteFile(int address, int size){
     return true;
 }
 
-std::vector<bool> OpenFile(int address, int size){
+std::vector<bool> FileManager::OpenFile(int address, int size){
     if (address >= storage.size()){
         exit(2);
     }
@@ -95,4 +95,15 @@ std::vector<bool> OpenFile(int address, int size){
     }
 
     return file;
+}
+
+bool FileManager::CheckIfFileExists(int address, int size){
+    //verificando a validade da requisicao de delete
+    for(int i = 0; i < size; ++i){
+        if(!(storage.at(address + i).first)){
+            //requisicao de delete maior que o arquivo
+            return false;
+        }
+    }
+    return true;
 }
