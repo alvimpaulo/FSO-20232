@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include
 
-CXX_FLAGS = -std=c++14
+CXX_FLAGS = -g -std=c++14
 

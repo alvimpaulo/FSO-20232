@@ -286,4 +286,5 @@ CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o: \
  /usr/include/c++/13.2.1/bits/enable_special_members.h \
  /usr/include/c++/13.2.1/unordered_set \
  /usr/include/c++/13.2.1/bits/unordered_set.h \
- /usr/include/c++/13.2.1/shared_mutex
+ /usr/include/c++/13.2.1/shared_mutex \
+ /home/paulo/unb/FSO-2/trab/include/util.hpp

@@ -7,6 +7,7 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/paulo/unb/FSO-2/trab/in
 set(OLD_GLOB
   "/home/paulo/unb/FSO-2/trab/include/Processo.hpp"
   "/home/paulo/unb/FSO-2/trab/include/ProcessoManager.hpp"
+  "/home/paulo/unb/FSO-2/trab/include/util.hpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -19,6 +20,7 @@ set(OLD_GLOB
   "/home/paulo/unb/FSO-2/trab/src/Processo.cpp"
   "/home/paulo/unb/FSO-2/trab/src/ProcessoManager.cpp"
   "/home/paulo/unb/FSO-2/trab/src/main.cpp"
+  "/home/paulo/unb/FSO-2/trab/src/util.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

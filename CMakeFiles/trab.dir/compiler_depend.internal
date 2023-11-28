@@ -3,6 +3,9 @@
 
 CMakeFiles/trab.dir/src/main.cpp.o
  /home/paulo/unb/FSO-2/trab/src/main.cpp
+ /home/paulo/unb/FSO-2/trab/include/Processo.hpp
+ /home/paulo/unb/FSO-2/trab/include/ProcessoManager.hpp
+ /home/paulo/unb/FSO-2/trab/include/util.hpp
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h

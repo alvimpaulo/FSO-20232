@@ -1,14 +1,17 @@
+#pragma once
+
 class Processo
 {
 private:
     /* data */
 public:
-    Processo(int startTime, int timeLeft, int priority,
+    Processo(int id, int startTime, int timeLeft, int priority,
              int memory,
              int printer,
              int scanner,
              int modem,
-             int disk, bool isPronto);
+             int disk);
+    int id;
     int timeLeft;
     int startTime;
     int priority;
@@ -17,8 +20,9 @@ public:
     int scanner;
     int modem;
     int disk;
-    bool isPronto;
+    int isPronto;
 
     void spend1Time();
     void setProcessoIsPronto(bool newState);
+    void run();
 };

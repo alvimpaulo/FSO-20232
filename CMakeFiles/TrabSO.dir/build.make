@@ -111,11 +111,26 @@ CMakeFiles/TrabSO.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TrabSO.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/paulo/unb/FSO-2/trab/src/main.cpp -o CMakeFiles/TrabSO.dir/src/main.cpp.s
 
+CMakeFiles/TrabSO.dir/src/util.cpp.o: CMakeFiles/TrabSO.dir/flags.make
+CMakeFiles/TrabSO.dir/src/util.cpp.o: src/util.cpp
+CMakeFiles/TrabSO.dir/src/util.cpp.o: CMakeFiles/TrabSO.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/paulo/unb/FSO-2/trab/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TrabSO.dir/src/util.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TrabSO.dir/src/util.cpp.o -MF CMakeFiles/TrabSO.dir/src/util.cpp.o.d -o CMakeFiles/TrabSO.dir/src/util.cpp.o -c /home/paulo/unb/FSO-2/trab/src/util.cpp
+
+CMakeFiles/TrabSO.dir/src/util.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TrabSO.dir/src/util.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/paulo/unb/FSO-2/trab/src/util.cpp > CMakeFiles/TrabSO.dir/src/util.cpp.i
+
+CMakeFiles/TrabSO.dir/src/util.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TrabSO.dir/src/util.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/paulo/unb/FSO-2/trab/src/util.cpp -o CMakeFiles/TrabSO.dir/src/util.cpp.s
+
 # Object files for target TrabSO
 TrabSO_OBJECTS = \
 "CMakeFiles/TrabSO.dir/src/Processo.cpp.o" \
 "CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o" \
-"CMakeFiles/TrabSO.dir/src/main.cpp.o"
+"CMakeFiles/TrabSO.dir/src/main.cpp.o" \
+"CMakeFiles/TrabSO.dir/src/util.cpp.o"
 
 # External object files for target TrabSO
 TrabSO_EXTERNAL_OBJECTS =
@@ -123,9 +138,10 @@ TrabSO_EXTERNAL_OBJECTS =
 libTrabSO.a: CMakeFiles/TrabSO.dir/src/Processo.cpp.o
 libTrabSO.a: CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o
 libTrabSO.a: CMakeFiles/TrabSO.dir/src/main.cpp.o
+libTrabSO.a: CMakeFiles/TrabSO.dir/src/util.cpp.o
 libTrabSO.a: CMakeFiles/TrabSO.dir/build.make
 libTrabSO.a: CMakeFiles/TrabSO.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/paulo/unb/FSO-2/trab/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libTrabSO.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/paulo/unb/FSO-2/trab/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libTrabSO.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/TrabSO.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TrabSO.dir/link.txt --verbose=$(VERBOSE)
 

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o.d"
   "CMakeFiles/TrabSO.dir/src/main.cpp.o"
   "CMakeFiles/TrabSO.dir/src/main.cpp.o.d"
+  "CMakeFiles/TrabSO.dir/src/util.cpp.o"
+  "CMakeFiles/TrabSO.dir/src/util.cpp.o.d"
   "libTrabSO.a"
   "libTrabSO.pdb"
 )

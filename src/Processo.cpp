@@ -1,18 +1,17 @@
 #include "Processo.hpp"
 
-Processo::Processo(int startTime, int timeLeft,
+Processo::Processo(int id, int startTime, int timeLeft,
                    int priority,
                    int memory,
                    int printer,
                    int scanner,
                    int modem,
-                   int disk,
-                   bool isPronto) : timeLeft(timeLeft), startTime(startTime), priority(priority),
-                                    memory(memory),
-                                    printer(printer),
-                                    scanner(scanner),
-                                    modem(modem),
-                                    disk(disk), isPronto(true)
+                   int disk) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
+                               memory(memory),
+                               printer(printer),
+                               scanner(scanner),
+                               modem(modem),
+                               disk(disk), isPronto(true)
 {
 }
 
@@ -29,4 +28,8 @@ void Processo::spend1Time()
 void Processo::setProcessoIsPronto(bool newState)
 {
     this->isPronto = newState;
+}
+
+void Processo::run(){
+    
 }
