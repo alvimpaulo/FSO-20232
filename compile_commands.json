@@ -1,6 +1,18 @@
 [
 {
   "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -g -std=c++14 -o CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o -c /home/paulo/unb/FSO-2/trab/src/MemorySpace.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/MemorySpace.cpp",
+  "output": "CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o"
+},
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
+  "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -g -std=c++14 -o CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o -c /home/paulo/unb/FSO-2/trab/src/MemoryVector.cpp",
+  "file": "/home/paulo/unb/FSO-2/trab/src/MemoryVector.cpp",
+  "output": "CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o"
+},
+{
+  "directory": "/home/paulo/unb/FSO-2/trab",
   "command": "/usr/bin/c++  -I/home/paulo/unb/FSO-2/trab -I/home/paulo/unb/FSO-2/trab/include -g -std=c++14 -o CMakeFiles/TrabSO.dir/src/Processo.cpp.o -c /home/paulo/unb/FSO-2/trab/src/Processo.cpp",
   "file": "/home/paulo/unb/FSO-2/trab/src/Processo.cpp",
   "output": "CMakeFiles/TrabSO.dir/src/Processo.cpp.o"

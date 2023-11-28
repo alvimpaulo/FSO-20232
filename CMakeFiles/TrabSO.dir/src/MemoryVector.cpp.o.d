@@ -1,5 +1,7 @@
-CMakeFiles/TrabSO.dir/src/main.cpp.o: \
- /home/paulo/unb/FSO-2/trab/src/main.cpp /usr/include/stdc-predef.h \
+CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o: \
+ /home/paulo/unb/FSO-2/trab/src/MemoryVector.cpp \
+ /usr/include/stdc-predef.h \
+ /home/paulo/unb/FSO-2/trab/include/MemoryVector.hpp \
  /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/stdc++.h \
  /usr/include/c++/13.2.1/cassert \
  /usr/include/c++/13.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -284,8 +286,4 @@ CMakeFiles/TrabSO.dir/src/main.cpp.o: \
  /usr/include/c++/13.2.1/unordered_set \
  /usr/include/c++/13.2.1/bits/unordered_set.h \
  /usr/include/c++/13.2.1/shared_mutex \
- /home/paulo/unb/FSO-2/trab/include/Processo.hpp \
- /home/paulo/unb/FSO-2/trab/include/MemorySpace.hpp \
- /home/paulo/unb/FSO-2/trab/include/ProcessoManager.hpp \
- /home/paulo/unb/FSO-2/trab/include/util.hpp \
- /home/paulo/unb/FSO-2/trab/include/MemoryVector.hpp
+ /home/paulo/unb/FSO-2/trab/include/MemorySpace.hpp

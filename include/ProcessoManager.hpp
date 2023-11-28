@@ -14,12 +14,12 @@ private:
     /* data */
 public:
     ProcessoManager(/* args */);
-    deque<Processo> filaProcesosTempoRealAlocados;
-    vector<deque<Processo>> filasProcessosUsuarioAlocados;
+    deque<Processo*> filaProcesosTempoRealAlocados;
+    vector<deque<Processo*>> filasProcessosUsuarioAlocados;
     MemoryVector memoriaProcessosTempoReal;
     MemoryVector memoriaProcessosUsuario;
-    bool alocarMemoriaProcessoTempoReal(Processo process);
-    bool alocarMemoriaProcessoUsuario(Processo process);
+    bool alocarMemoriaProcessoTempoReal(Processo* process);
+    bool alocarMemoriaProcessoUsuario(Processo* process);
     void run(int cpuTime);
-    vector<Processo> getProcessosAlocados();
+    vector<Processo*> getProcessosAlocados();
 };

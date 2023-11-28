@@ -143,6 +143,54 @@ trab/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/trab.dir/build.make CMakeFiles/trab.dir/build
 .PHONY : trab/fast
 
+src/MemorySpace.o: src/MemorySpace.cpp.o
+.PHONY : src/MemorySpace.o
+
+# target to build an object file
+src/MemorySpace.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o
+.PHONY : src/MemorySpace.cpp.o
+
+src/MemorySpace.i: src/MemorySpace.cpp.i
+.PHONY : src/MemorySpace.i
+
+# target to preprocess a source file
+src/MemorySpace.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.i
+.PHONY : src/MemorySpace.cpp.i
+
+src/MemorySpace.s: src/MemorySpace.cpp.s
+.PHONY : src/MemorySpace.s
+
+# target to generate assembly for a file
+src/MemorySpace.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.s
+.PHONY : src/MemorySpace.cpp.s
+
+src/MemoryVector.o: src/MemoryVector.cpp.o
+.PHONY : src/MemoryVector.o
+
+# target to build an object file
+src/MemoryVector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o
+.PHONY : src/MemoryVector.cpp.o
+
+src/MemoryVector.i: src/MemoryVector.cpp.i
+.PHONY : src/MemoryVector.i
+
+# target to preprocess a source file
+src/MemoryVector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.i
+.PHONY : src/MemoryVector.cpp.i
+
+src/MemoryVector.s: src/MemoryVector.cpp.s
+.PHONY : src/MemoryVector.s
+
+# target to generate assembly for a file
+src/MemoryVector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TrabSO.dir/build.make CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.s
+.PHONY : src/MemoryVector.cpp.s
+
 src/Processo.o: src/Processo.cpp.o
 .PHONY : src/Processo.o
 
@@ -252,6 +300,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... TrabSO"
 	@echo "... trab"
+	@echo "... src/MemorySpace.o"
+	@echo "... src/MemorySpace.i"
+	@echo "... src/MemorySpace.s"
+	@echo "... src/MemoryVector.o"
+	@echo "... src/MemoryVector.i"
+	@echo "... src/MemoryVector.s"
 	@echo "... src/Processo.o"
 	@echo "... src/Processo.i"
 	@echo "... src/Processo.s"

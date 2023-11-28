@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o"
+  "CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o.d"
+  "CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o"
+  "CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o.d"
   "CMakeFiles/TrabSO.dir/src/Processo.cpp.o"
   "CMakeFiles/TrabSO.dir/src/Processo.cpp.o.d"
   "CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o"

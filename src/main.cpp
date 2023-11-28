@@ -7,9 +7,9 @@ using namespace std;
 #include "ProcessoManager.hpp"
 #include "util.hpp"
 
-bool sortProcessos(Processo a, Processo b)
+bool sortProcessos(Processo* a, Processo* b)
 {
-    return a.startTime < b.startTime;
+    return a->startTime < b->startTime;
 }
 
 int main()
@@ -24,13 +24,13 @@ int main()
     std::string processInfo;
     long long lineCount = 1;
 
-    deque<Processo> processosParaAlocar;
+    deque<Processo*> processosParaAlocar;
 
     while (getline(processesFile, processInfo))
     {
         lineCount++;
         auto splitedInfo = splitString(processInfo, ',');
-        auto newProcess = Processo(++lastStartedProcessID, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]));
+        auto newProcess = new Processo(++lastStartedProcessID, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]));
         processosParaAlocar.push_back(newProcess);
     }
 
@@ -38,8 +38,8 @@ int main()
 
     while (processosParaAlocar.empty() == false || processManager.getProcessosAlocados().size() > 0)
     {
-        std::deque<Processo> processosStartadosAgora;
-        while (!processosParaAlocar.empty() && processosParaAlocar.front().startTime <= cpuTime)
+        std::deque<Processo*> processosStartadosAgora;
+        while (!processosParaAlocar.empty() && processosParaAlocar.front()->startTime <= cpuTime)
         {
             processosStartadosAgora.push_back(processosParaAlocar.front());
             processosParaAlocar.pop_front();
@@ -49,17 +49,17 @@ int main()
             auto newProcess = processosStartadosAgora.front();
             processosStartadosAgora.pop_front();
 
-            if (newProcess.priority == 0)
+            if (newProcess->priority == 0)
             {
                 auto resultAlocation = (processManager.alocarMemoriaProcessoTempoReal(newProcess));
 
                 if (resultAlocation == false)
                 {
-                    cout << "Não consegui alocar o processo de tempo real de id: " << newProcess.id << " porque não havia espaço na memoria de tempo-real" << endl;
+                    cout << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << endl;
                 }
                 else
                 {
-                    cout << "Startei o processo de tempo real de id: " << newProcess.id << " no tempo: " << cpuTime << endl;
+                    cout << "Startei o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
                     processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
@@ -70,11 +70,11 @@ int main()
                 if (resultAlocation == false)
                 {
 
-                    cout << "Não consegui alocar o processo de id: " << newProcess.id << " porque não havia espaço na memoria de usuario" << endl;
+                    cout << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << endl;
                 }
                 else
                 {
-                    cout << "Startei o processo de usuário de id: " << newProcess.id << " no tempo: " << cpuTime << endl;
+                    cout << "Startei o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
                 }
             }
         }

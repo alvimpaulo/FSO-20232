@@ -1,4 +1,5 @@
 #pragma once
+#include "MemorySpace.hpp"
 
 class Processo
 {
@@ -21,6 +22,7 @@ public:
     int modem;
     int disk;
     int isPronto;
+    MemorySpace* memorySpace;
 
     void setProcessoIsPronto(bool newState);
     Processo* run(int cpuTime);

@@ -5,6 +5,8 @@ cmake_policy(SET CMP0009 NEW)
 # HEADER_FILES at CMakeLists.txt:32 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/paulo/unb/FSO-2/trab/include/*.hpp")
 set(OLD_GLOB
+  "/home/paulo/unb/FSO-2/trab/include/MemorySpace.hpp"
+  "/home/paulo/unb/FSO-2/trab/include/MemoryVector.hpp"
   "/home/paulo/unb/FSO-2/trab/include/Processo.hpp"
   "/home/paulo/unb/FSO-2/trab/include/ProcessoManager.hpp"
   "/home/paulo/unb/FSO-2/trab/include/util.hpp"
@@ -17,6 +19,8 @@ endif()
 # SRC_FILES at CMakeLists.txt:29 (file)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/paulo/unb/FSO-2/trab/src/*.cpp")
 set(OLD_GLOB
+  "/home/paulo/unb/FSO-2/trab/src/MemorySpace.cpp"
+  "/home/paulo/unb/FSO-2/trab/src/MemoryVector.cpp"
   "/home/paulo/unb/FSO-2/trab/src/Processo.cpp"
   "/home/paulo/unb/FSO-2/trab/src/ProcessoManager.cpp"
   "/home/paulo/unb/FSO-2/trab/src/main.cpp"

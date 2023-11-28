@@ -14,6 +14,7 @@ Processo::Processo(int id, int startTime, int timeLeft,
                                modem(modem),
                                disk(disk), isPronto(true)
 {
+    memorySpace = nullptr;
 }
 
 void Processo::setProcessoIsPronto(bool newState)
