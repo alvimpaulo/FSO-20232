@@ -7,7 +7,7 @@ using namespace std;
 #include "ProcessoManager.hpp"
 #include "util.hpp"
 
-bool sortProcessos(Processo* a, Processo* b)
+bool sortProcessos(Processo *a, Processo *b)
 {
     return a->startTime < b->startTime;
 }
@@ -24,7 +24,7 @@ int main()
     std::string processInfo;
     long long lineCount = 1;
 
-    deque<Processo*> processosParaAlocar;
+    deque<Processo *> processosParaAlocar;
 
     while (getline(processesFile, processInfo))
     {
@@ -38,13 +38,15 @@ int main()
 
     while (processosParaAlocar.empty() == false || processManager.getProcessosAlocados().size() > 0)
     {
-        std::deque<Processo*> processosStartadosAgora;
+        cout << "-------------- Ciclo de CPU ----------------- Tempo: " << cpuTime << " -------------------" << endl;
+
+        std::deque<Processo *> processosStartadosAgora;
         while (!processosParaAlocar.empty() && processosParaAlocar.front()->startTime <= cpuTime)
         {
             processosStartadosAgora.push_back(processosParaAlocar.front());
             processosParaAlocar.pop_front();
         }
-        for (size_t i = 0; i < processosStartadosAgora.size(); i++)
+        while (processosStartadosAgora.empty() == false)
         {
             auto newProcess = processosStartadosAgora.front();
             processosStartadosAgora.pop_front();
@@ -59,7 +61,7 @@ int main()
                 }
                 else
                 {
-                    cout << "Startei o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
                     processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
@@ -74,7 +76,24 @@ int main()
                 }
                 else
                 {
-                    cout << "Startei o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    switch (newProcess->priority)
+                    {
+                    case 1:
+                        processManager.filasProcessosUsuarioAlocados[0].push_back(newProcess);
+                        break;
+                    case 2:
+                        processManager.filasProcessosUsuarioAlocados[1].push_back(newProcess);
+
+                        break;
+                    case 3:
+                        processManager.filasProcessosUsuarioAlocados[2].push_back(newProcess);
+
+                        break;
+
+                    default:
+                        break;
+                    }
                 }
             }
         }

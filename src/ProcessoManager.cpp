@@ -7,9 +7,9 @@ ProcessoManager ::ProcessoManager(/* args */) : memoriaProcessosTempoReal(64), m
     this->filasProcessosUsuarioAlocados = {{}, {}, {}};
 }
 
-bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo* process)
+bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
 {
-    vector<pair<MemorySpace*, int>> freeSpaces;
+    vector<pair<MemorySpace *, int>> freeSpaces;
 
     for (size_t i = 0; i < memoriaProcessosTempoReal.spaces.size(); i++)
     {
@@ -36,10 +36,10 @@ bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo* process)
     return _HasSpace;
 }
 
-bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo* process)
+bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo *process)
 {
 
-    vector<pair<MemorySpace*, int>> freeSpaces;
+    vector<pair<MemorySpace *, int>> freeSpaces;
 
     for (size_t i = 0; i < memoriaProcessosUsuario.spaces.size(); i++)
     {
@@ -67,7 +67,7 @@ bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo* process)
 
 void ProcessoManager::run(int cpuTime)
 {
-    cout << "-------------- Ciclo de CPU ----------------- Tempo: " << cpuTime << " -------------------" << endl;
+    
 
     if (filaProcesosTempoRealAlocados.size() > 0)
     {
@@ -78,7 +78,7 @@ void ProcessoManager::run(int cpuTime)
             filaProcesosTempoRealAlocados.pop_front();
             auto memorySpaces = &memoriaProcessosTempoReal.spaces;
 
-            auto processMemorySpace = find_if(memorySpaces->begin(), memorySpaces->end(), [currentProcess](MemorySpace* memory)
+            auto processMemorySpace = find_if(memorySpaces->begin(), memorySpaces->end(), [currentProcess](MemorySpace *memory)
                                               { return memory->pidOwner == currentProcess->id; });
 
             if (processMemorySpace != memorySpaces->end())
@@ -108,31 +108,67 @@ void ProcessoManager::run(int cpuTime)
     }
     else
     {
+        Processo *currentProcess = nullptr;
         if (filasProcessosUsuarioAlocados[0].size() > 0)
         {
-            auto currentProcess = filasProcessosUsuarioAlocados[0].front()->run(cpuTime);
+            currentProcess = filasProcessosUsuarioAlocados[0].front()->run(cpuTime);
         }
         else if (filasProcessosUsuarioAlocados[1].size() > 0)
         {
-            auto currentProcess = filasProcessosUsuarioAlocados[1].front()->run(cpuTime);
+            currentProcess = filasProcessosUsuarioAlocados[1].front()->run(cpuTime);
         }
         else if (filasProcessosUsuarioAlocados[2].size() > 0)
         {
-            auto currentProcess = filasProcessosUsuarioAlocados[2].front()->run(cpuTime);
+            currentProcess = filasProcessosUsuarioAlocados[2].front()->run(cpuTime);
+        }
+
+        if (currentProcess && currentProcess->hasDied())
+        {
+            cout << "Processo Id: " << currentProcess->id << " morreu" << endl;
+
+            auto currentProcessFilaIndex = currentProcess->priority - 1;
+            filasProcessosUsuarioAlocados[currentProcessFilaIndex].pop_front();
+            auto memorySpaces = &memoriaProcessosUsuario.spaces;
+
+            auto processMemorySpace = find_if(memorySpaces->begin(), memorySpaces->end(), [currentProcess](MemorySpace *memory)
+                                              { return memory->pidOwner == currentProcess->id; });
+
+            if (processMemorySpace != memorySpaces->end())
+            {
+                auto currentIndex = processMemorySpace - memorySpaces->begin();
+                if (currentIndex <= memorySpaces->size() - 1)
+                {
+                    auto nextSpaceIt = memorySpaces->begin() + currentIndex + 1;
+
+                    if (nextSpaceIt != memorySpaces->end() && (*nextSpaceIt)->isOccupied == false)
+                    {
+                        memoriaProcessosUsuario.joinMemory(processMemorySpace - memorySpaces->begin(), *processMemorySpace, *nextSpaceIt);
+                    }
+                }
+
+                if (currentIndex >= 1)
+                {
+                    auto prevSpaceIt = memorySpaces->begin() + currentIndex - 1;
+
+                    if (prevSpaceIt != memorySpaces->begin() && (*prevSpaceIt)->isOccupied == false)
+                    {
+                        memoriaProcessosUsuario.joinMemory(processMemorySpace - memorySpaces->begin() - 1, *processMemorySpace, *prevSpaceIt);
+                    }
+                }
+            }
         }
     }
 
     // Process Aging
 
-
-    //End of run
+    // End of run
     cout << endl;
     // cout << "-------------- Fim do Ciclo de CPU ----------- Tempo: " << cpuTime << " --------------------" << endl;
 }
 
-vector<Processo*> ProcessoManager::getProcessosAlocados()
+vector<Processo *> ProcessoManager::getProcessosAlocados()
 {
-    vector<Processo*> returnVector;
+    vector<Processo *> returnVector;
 
     for (size_t i = 0; i < filaProcesosTempoRealAlocados.size(); i++)
     {
