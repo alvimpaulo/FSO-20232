@@ -7,14 +7,14 @@ Processo::Processo(int id, int startTime, int timeLeft,
                    int printer,
                    int scanner,
                    int modem,
-                   int disk) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
-                               memory(memory),
-                               printer(printer),
-                               scanner(scanner),
-                               modem(modem),
-                               disk(disk), isPronto(true)
+                   int disk, int filaDeExecucao) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
+                                                   memory(memory),
+                                                   scanner(scanner),
+                                                   modem(modem),
+                                                   disk(disk), filaDeExecucao(filaDeExecucao)
 {
-    memorySpace = nullptr;
+    isPronto = true;
+    cpuTimeCurrentList = 0;
 }
 
 void Processo::setProcessoIsPronto(bool newState)
@@ -22,14 +22,16 @@ void Processo::setProcessoIsPronto(bool newState)
     this->isPronto = newState;
 }
 
-Processo* Processo::run(int cpuTime){
+Processo *Processo::run(int cpuTime)
+{
     this->timeLeft--;
     std::cout << "Rodou o processo de id " << this->id << " faltam: " << this->timeLeft << " operações" << std::endl;
-    //FAZER IO E ARQUIVOS AQUI
+    // FAZER IO E ARQUIVOS AQUI
 
     return this;
 }
 
-bool Processo::hasDied(){
+bool Processo::hasDied()
+{
     return this->timeLeft <= 0;
 }

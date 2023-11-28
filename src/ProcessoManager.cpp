@@ -28,7 +28,6 @@ bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
             auto mem2 = new MemorySpace(-1, freeSpaces[i].first->space - process->memory, false);
             this->memoriaProcessosTempoReal.splitMemory(freeSpaces[i].second, mem1, mem2);
             _HasSpace = true;
-            process->memorySpace = mem1;
             break;
         }
     }
@@ -67,8 +66,6 @@ bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo *process)
 
 void ProcessoManager::run(int cpuTime)
 {
-    
-
     if (filaProcesosTempoRealAlocados.size() > 0)
     {
         auto currentProcess = filaProcesosTempoRealAlocados.front()->run(cpuTime);
@@ -126,8 +123,7 @@ void ProcessoManager::run(int cpuTime)
         {
             cout << "Processo Id: " << currentProcess->id << " morreu" << endl;
 
-            auto currentProcessFilaIndex = currentProcess->priority - 1;
-            filasProcessosUsuarioAlocados[currentProcessFilaIndex].pop_front();
+            filasProcessosUsuarioAlocados[currentProcess->filaDeExecucao].pop_front();
             auto memorySpaces = &memoriaProcessosUsuario.spaces;
 
             auto processMemorySpace = find_if(memorySpaces->begin(), memorySpaces->end(), [currentProcess](MemorySpace *memory)
@@ -158,8 +154,44 @@ void ProcessoManager::run(int cpuTime)
             }
         }
     }
+    vector<int> toErase;
 
     // Process Aging
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[1].size(); i++)
+    {
+        if (cpuTime - filasProcessosUsuarioAlocados[1][i]->cpuTimeCurrentList >= 30)
+        {
+            toErase.push_back(i);
+        }
+    }
+    for (size_t i = 0; i < toErase.size(); i++)
+    {
+        auto process = filasProcessosUsuarioAlocados[1][toErase[i] - i];
+        process->cpuTimeCurrentList = cpuTime;
+        (process->filaDeExecucao)--;
+        filasProcessosUsuarioAlocados[1].erase(filasProcessosUsuarioAlocados[1].begin() + toErase[i] - i);
+        filasProcessosUsuarioAlocados[0].push_back(process);
+    }
+
+    toErase.clear();
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[2].size(); i++)
+    {
+        if (cpuTime - filasProcessosUsuarioAlocados[2][i]->cpuTimeCurrentList >= 20)
+        {
+            toErase.push_back(i);
+        }
+    }
+
+    for (size_t i = 0; i < toErase.size(); i++)
+    {
+        auto process = filasProcessosUsuarioAlocados[2][toErase[i] - i];
+        process->cpuTimeCurrentList = cpuTime;
+        (process->filaDeExecucao)--;
+        filasProcessosUsuarioAlocados[2].erase(filasProcessosUsuarioAlocados[2].begin() + toErase[i] - i);
+        filasProcessosUsuarioAlocados[1].push_back(process);
+    }
+
+    toErase.clear();
 
     // End of run
     cout << endl;

@@ -12,7 +12,7 @@ bool sortProcessos(Processo *a, Processo *b)
     return a->startTime < b->startTime;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     unsigned long long cpuTime = 0;
     unsigned long long lastStartedProcessID = 0;
@@ -20,7 +20,10 @@ int main()
     auto processManager = ProcessoManager();
 
     std::ifstream processesFile;
-    processesFile.open("processes.txt");
+    if (argc == 1)
+    {
+        processesFile.open("processes.txt");
+    }
     std::string processInfo;
     long long lineCount = 1;
 
@@ -30,7 +33,7 @@ int main()
     {
         lineCount++;
         auto splitedInfo = splitString(processInfo, ',');
-        auto newProcess = new Processo(++lastStartedProcessID, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]));
+        auto newProcess = new Processo(++lastStartedProcessID, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]), stoi(splitedInfo[1]) - 1);
         processosParaAlocar.push_back(newProcess);
     }
 
@@ -84,7 +87,6 @@ int main()
                         break;
                     case 2:
                         processManager.filasProcessosUsuarioAlocados[1].push_back(newProcess);
-
                         break;
                     case 3:
                         processManager.filasProcessosUsuarioAlocados[2].push_back(newProcess);
