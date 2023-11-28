@@ -1,4 +1,0 @@
-/home/paulo/unb/FSO-2/trab/CMakeFiles/TrabSO.dir
-/home/paulo/unb/FSO-2/trab/CMakeFiles/trab.dir
-/home/paulo/unb/FSO-2/trab/CMakeFiles/edit_cache.dir
-/home/paulo/unb/FSO-2/trab/CMakeFiles/rebuild_cache.dir

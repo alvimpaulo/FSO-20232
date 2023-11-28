@@ -1,2 +1,0 @@
-/usr/bin/ar qc libTrabSO.a CMakeFiles/TrabSO.dir/src/MemorySpace.cpp.o CMakeFiles/TrabSO.dir/src/MemoryVector.cpp.o CMakeFiles/TrabSO.dir/src/Processo.cpp.o CMakeFiles/TrabSO.dir/src/ProcessoManager.cpp.o CMakeFiles/TrabSO.dir/src/main.cpp.o CMakeFiles/TrabSO.dir/src/util.cpp.o
-/usr/bin/ranlib libTrabSO.a
