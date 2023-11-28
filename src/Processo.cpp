@@ -1,5 +1,6 @@
 #include "Processo.hpp"
 #include "iostream"
+#include "FileManager.hpp"
 
 Processo::Processo(int id, int startTime, int timeLeft,
                    int priority,
@@ -34,19 +35,19 @@ Processo *Processo::run(int cpuTime)
 
     srand(time(0));
     int instruction = rand()%4;
+    std::vector<bool> file;
+    int fileSize = rand() % 100;
+    std::pair<int, int> fileData;
 
     switch(instruction){
     case 0:
-        int fileSize = rand() % 100;
-        std::vector<bool> file;
         for(int i = 0; i < fileSize; ++i){
             file.push_back(rand()%2);
         }
-        std::pair<int, int> fileData;
-        filedata = fileManager.CreateFile(file);
+        fileData = fileManager.CreateFile(file);
         break;
     case 1:
-        if(fileManager.CheckIfFileExists(rand() % 100, rand % 100)){
+        if(fileManager.CheckIfFileExists(rand() % 100, rand() % 100)){
             std::cout << "Arquivo existe" << std::endl;
         }
         else{
@@ -54,7 +55,7 @@ Processo *Processo::run(int cpuTime)
         }
         break;
     case 2:
-        if(fileManager.DeleteFile(rand() % 100, rand % 100)){
+        if(fileManager.DeleteFile(rand() % 100, rand() % 100)){
             std::cout << "Arquivo deletado com sucesso" << std::endl;
         }
         else{
@@ -62,7 +63,7 @@ Processo *Processo::run(int cpuTime)
         }
         break;
     case 3:
-        std::vector<bool> file = fileManager.OpenFile(rand() % 100, rand % 100);
+        file = fileManager.OpenFile(rand() % 100, rand() % 100);
         break;
     }
 
