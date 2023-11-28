@@ -12,7 +12,7 @@ public:
     std::vector<bool> OpenFile(int address, int size);
     bool CheckIfFileExists(int address, int size);
 private:
-    FileManager(int size, blockSize);
+    FileManager(int size, int blockSize);
     std::vector<std::pair<bool, std::vector<bool>>> storage;
 
     static inline FileManager* instance = nullptr;
