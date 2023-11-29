@@ -4,7 +4,7 @@ MemoryVector::MemoryVector(int size)
 {
     this->size = size;
 
-    this->spaces =  {new MemorySpace(-1, size, false)};
+    this->spaces =  {new MemorySpace(-1, size, false, 0)};
 }
 
 void MemoryVector::splitMemory(int index, MemorySpace* mem1, MemorySpace* mem2)
@@ -19,6 +19,6 @@ void MemoryVector::joinMemory(int index, MemorySpace* mem1, MemorySpace* mem2)
 {
     this->spaces.erase(spaces.begin() + index);
     this->spaces.erase(spaces.begin() + index + 1);
-    this->spaces.insert(spaces.begin() + index + 1, new MemorySpace(-1, mem1->space + mem2->space, false));
+    this->spaces.insert(spaces.begin() + index + 1, new MemorySpace(-1, mem1->space + mem2->space, false, mem1->offset));
     
 }

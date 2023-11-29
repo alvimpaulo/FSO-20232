@@ -24,6 +24,7 @@ public:
     int isPronto;
     unsigned long long cpuTimeCurrentList;
     int filaDeExecucao;
+    MemorySpace* memorySpace;
 
     void setProcessoIsPronto(bool newState);
     Processo *run(int cpuTime);

@@ -16,6 +16,7 @@ Processo::Processo(int id, int startTime, int timeLeft,
 {
     isPronto = true;
     cpuTimeCurrentList = 0;
+    memorySpace = nullptr;
 }
 
 void Processo::setProcessoIsPronto(bool newState)

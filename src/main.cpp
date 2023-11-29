@@ -65,6 +65,14 @@ int main(int argc, char *argv[])
                 else
                 {
                     cout << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << "PID: " << newProcess->id << endl
+                         << "Prioridade: " << newProcess->priority << endl
+                         << "Offset de memoria: " << newProcess->memorySpace->offset << endl
+                         << "Quantidade de blocos alocados: " << newProcess->memory << endl
+                         << "Utilizacao de impressora: " << newProcess->printer << endl
+                         << "Utilizacao de scanner: " << newProcess->scanner << endl
+                         << "Utilizacao de modem: " << newProcess->modem << endl
+                         << "Utilizacao de sata: " << newProcess->disk << endl;
                     processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
@@ -80,6 +88,14 @@ int main(int argc, char *argv[])
                 else
                 {
                     cout << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << "PID: " << newProcess->id << endl
+                         << "Prioridade: " << newProcess->priority << endl
+                         << "Offset de memoria: " << newProcess->memorySpace->offset << endl
+                         << "Quantidade de blocos alocados: " << newProcess->memory << endl
+                         << "Utilizacao de impressora: " << newProcess->printer << endl
+                         << "Utilizacao de scanner: " << newProcess->scanner << endl
+                         << "Utilizacao de modem: " << newProcess->modem << endl
+                         << "Utilizacao de sata: " << newProcess->disk << endl;
                     switch (newProcess->priority)
                     {
                     case 1:

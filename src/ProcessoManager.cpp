@@ -24,14 +24,15 @@ bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
     {
         if (freeSpaces[i].first->space >= process->memory)
         {
-            auto mem1 = new MemorySpace(process->id, process->memory, true);
-            auto mem2 = new MemorySpace(-1, freeSpaces[i].first->space - process->memory, false);
+            auto mem1 = new MemorySpace(process->id, process->memory, true, freeSpaces[i].first->offset);
+            auto mem2 = new MemorySpace(-1, freeSpaces[i].first->space - process->memory, false, mem1->offset + mem1->space);
             this->memoriaProcessosTempoReal.splitMemory(freeSpaces[i].second, mem1, mem2);
             _HasSpace = true;
+            process->memorySpace = mem1;
             break;
         }
     }
-
+    
     return _HasSpace;
 }
 
@@ -53,10 +54,11 @@ bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo *process)
     {
         if (freeSpaces[i].first->space >= process->memory)
         {
-            auto mem1 = new MemorySpace(process->id, process->memory, true);
-            auto mem2 = new MemorySpace(-1, freeSpaces[i].first->space - process->memory, false);
+            auto mem1 = new MemorySpace(process->id, process->memory, true, freeSpaces[i].first->offset);
+            auto mem2 = new MemorySpace(-1, freeSpaces[i].first->space - process->memory, false, mem1->offset + mem1->space);
             this->memoriaProcessosUsuario.splitMemory(freeSpaces[i].second, mem1, mem2);
             _HasSpace = true;
+            process->memorySpace = mem1;
             break;
         }
     }
@@ -71,7 +73,7 @@ void ProcessoManager::run(int cpuTime)
         auto currentProcess = filaProcesosTempoRealAlocados.front()->run(cpuTime);
         if (currentProcess->hasDied())
         {
-            cout << "Processo Id: " << currentProcess->id << " morreu" << endl;
+            cout << "Processo de tempo real Id: " << currentProcess->id << " morreu" << endl;
             filaProcesosTempoRealAlocados.pop_front();
             auto memorySpaces = &memoriaProcessosTempoReal.spaces;
 
@@ -121,7 +123,7 @@ void ProcessoManager::run(int cpuTime)
 
         if (currentProcess && currentProcess->hasDied())
         {
-            cout << "Processo Id: " << currentProcess->id << " morreu" << endl;
+            cout << "Processo de usuario Id: " << currentProcess->id << " morreu" << endl;
 
             filasProcessosUsuarioAlocados[currentProcess->filaDeExecucao].pop_front();
             auto memorySpaces = &memoriaProcessosUsuario.spaces;
@@ -151,6 +153,11 @@ void ProcessoManager::run(int cpuTime)
                         memoriaProcessosUsuario.joinMemory(processMemorySpace - memorySpaces->begin() - 1, *processMemorySpace, *prevSpaceIt);
                     }
                 }
+
+                (*processMemorySpace)->isOccupied = false;
+                (*processMemorySpace)->pidOwner = -1;
+
+
             }
         }
     }
