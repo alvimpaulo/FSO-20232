@@ -93,6 +93,7 @@ int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress
     // se nao achar sai e retorna -1
 
     if(freeAddress == -1){
+        std::cout << "Nao ha espaco para o arquivo" << std::endl;
         return freeAddress;
     }
 
@@ -119,6 +120,8 @@ bool FileManager::DeleteFile(std::string fileName){
             return true;
         }
     }
+
+    std::cout << "O arquivo a ser deletado nao foi encontrado" << std::endl;
     return false;
 }
 
