@@ -3,22 +3,26 @@
 
 #include <vector>
 #include <utility>
+#include <string>
+#include <tuple>
 
 class FileManager{
 public:
     static FileManager& GetInstance();
-    std::pair<int, int> CreateFile(std::vector<bool> data);
-    bool DeleteFile(int address, int size);
-    std::vector<bool> OpenFile(int address, int size);
-    bool CheckIfFileExists(int address, int size);
-private:
-    FileManager(int size, int blockSize);
-    std::vector<std::pair<bool, std::vector<bool>>> storage;
+    int CreateFile(std::string fileName, int fileSize, int firstAddress = 0);
+    bool DeleteFile(std::string fileName);
+    void PrintStorage();
+    void PrintFAT();
 
-    static inline FileManager* instance = nullptr;
+    static std::vector<std::vector<std::string>>* initialValues;
+private:
+    FileManager(int size);
+    std::vector<bool> storage;
+    std::vector<std::tuple<std::string, int, int>> FAT;
+
+    static FileManager* instance;
 
     int size;
-    int blockSize;
 };
 
 #endif // FILEMANAGER_HPP
