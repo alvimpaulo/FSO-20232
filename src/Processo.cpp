@@ -36,12 +36,13 @@ Processo *Processo::run(int cpuTime)
 
     // ARQUIVOS
 
-    std::cout << cpuTime << " " << this->timeLeft << " " << this->startTime << std::endl;
+    std::cout << this->totalTime << " " << this->timeLeft << " " << this->startTime << std::endl;
 
     FileManager &fileManager = FileManager::GetInstance();
 
-    for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft); i < fileManager.initialValues->size(); ++i)
-    {
+    int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft);
+
+    if(i < fileManager.initialValues->size()){
         if (std::stoi(fileManager.initialValues->at(i).at(0)) == this->id)
         {
             switch (std::stoi(fileManager.initialValues->at(i).at(1)))
@@ -57,6 +58,10 @@ Processo *Processo::run(int cpuTime)
             }
         }
     }
+
+    // for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft); i < fileManager.initialValues->size(); ++i)
+    // {
+    // }
 
     this->timeLeft--;
     std::cout << "Rodou o processo de id " << this->id << " faltam: " << this->timeLeft << " operações" << std::endl;
