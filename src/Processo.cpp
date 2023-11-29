@@ -36,8 +36,6 @@ Processo *Processo::run(int cpuTime)
 
     // ARQUIVOS
 
-    std::cout << this->totalTime << " " << this->timeLeft << " " << this->startTime << std::endl;
-
     FileManager &fileManager = FileManager::GetInstance();
 
     int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft);
