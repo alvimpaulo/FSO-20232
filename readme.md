@@ -27,3 +27,4 @@ No arquivo `main`, é feita a leitura do arquivo `processes.txt` que será utili
 ### Módulo de Recurso:
 
 ### Módulo de Arquivos:
+O gerenciamento de arquivos foi desenvolvido pelo aluno Jonas Rangel e está nos arquivos `src/FileManager.cpp`. O gerenciamento é feito pela classe MemoryManager que utiliza design de projeto singleton para garantir a existência de um único gerenciador para o SO. O gerenciador possúi as operações de ler o arquivo de inicial `files.txt` Adicionar Arquivo e Deletar Arquivo. Para gerenciamento dos arquivos foi utilizada uma pseudo tabela FAT onde são guardadas tuplas que contém o nome do arquivo, seu endereço inicial e seu tamanho.
