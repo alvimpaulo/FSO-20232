@@ -90,7 +90,7 @@ FileManager::FileManager(int size) : storage(size, 0)
 int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress)
 {
     Color::Modifier termMagenta(Color::FG_MAGENTA);
-    Color::Modifier termBackRed(Color::BG_RED);
+    Color::Modifier termBackRed(Color::FG_MAGENTA, Color::BG_RED);
     Color::Modifier termReset(Color::FG_DEFAULT);
     int freeAddress = -1;
 
@@ -120,7 +120,7 @@ int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress
 
     if (freeAddress == -1)
     {
-        std::cout << termBackRed << termMagenta << "Nao ha espaco para o arquivo" << termReset << std::endl;
+        std::cout << termBackRed << "Nao ha espaco para o arquivo" << termReset << std::endl;
         return freeAddress;
     }
 
@@ -141,7 +141,7 @@ int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress
 bool FileManager::DeleteFile(std::string fileName)
 {
     Color::Modifier termMagenta(Color::FG_MAGENTA);
-    Color::Modifier termBackRed(Color::BG_RED);
+    Color::Modifier termBackRed(Color::FG_MAGENTA, Color::BG_RED);
     Color::Modifier termReset(Color::FG_DEFAULT);
     for (int i = 0; i < FAT.size(); ++i)
     {
@@ -156,7 +156,7 @@ bool FileManager::DeleteFile(std::string fileName)
         }
     }
 
-    std::cout << termBackRed << termMagenta << "O arquivo a ser deletado nao foi encontrado" << termReset << std::endl;
+    std::cout << termBackRed  << "O arquivo a ser deletado nao foi encontrado" << termReset << std::endl;
     return false;
 }
 

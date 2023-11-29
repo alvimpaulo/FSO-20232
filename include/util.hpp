@@ -10,7 +10,16 @@ vector<string> splitMemoryString(string memory);
 namespace Color
 {
 
-    enum Code
+    enum BackgroundCode
+    {
+        BG_DEFAULT = -1,
+        BG_RED = 41,
+        BG_GREEN = 42,
+        BG_BLUE = 44,
+        BG_LIGHT_RED = 101
+    };
+
+    enum ForegroundCode
     {
         FG_BOLD = 1,
         FG_UNDERLINE = 4,
@@ -23,10 +32,7 @@ namespace Color
         FG_CYAN = 36,
         FG_LIGHT_GRAY = 37,
         FG_DEFAULT = 0,
-        BG_RED = 41,
-        BG_GREEN = 42,
-        BG_BLUE = 44,
-        BG_DEFAULT = 49,
+
         FG_DARK_GRAY = 90,
         FG_LIGHT_RED = 91,
         FG_LIGHT_GREEN = 92,
@@ -35,21 +41,27 @@ namespace Color
         FG_LIGHT_MAGENTA = 95,
         FG_LIGHT_CYAN = 96,
         FG_WHITE = 97,
-        BG_LIGHT_RED = 101
+
     };
     class Modifier
     {
-        Code code;
+        ForegroundCode fgCode;
+        BackgroundCode bgCode;
 
     public:
-        Modifier(Code pCode) : code(pCode) {}
+        Modifier(ForegroundCode pFgCode, BackgroundCode pBgCode = BackgroundCode::BG_DEFAULT) : fgCode(pFgCode), bgCode(pBgCode) {}
         friend std::ostream &
         operator<<(std::ostream &os, const Modifier &mod)
         {
-            return os << "\033[" << mod.code << "m";
+            if (mod.bgCode != BG_DEFAULT)
+            {
+                 return os << "\033[" << mod.fgCode << ";" << mod.bgCode << "m";
+            }
+            else
+            {
+                return os << "\033[" << mod.fgCode << "m";
+            }
         }
     };
 }
-
-
-
+ 

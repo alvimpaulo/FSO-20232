@@ -34,7 +34,7 @@ void Processo::setProcessoIsPronto(bool newState)
 Processo *Processo::run(int cpuTime)
 {
     // Terminal colors
-    Color::Modifier termBlue(Color::FG_BLUE);
+    Color::Modifier termLightBlue(Color::FG_LIGHT_CYAN);
     Color::Modifier termReset(Color::FG_DEFAULT);
     Color::Modifier termBold(Color::FG_BOLD);
 
@@ -67,7 +67,7 @@ Processo *Processo::run(int cpuTime)
     // }
 
     this->timeLeft--;
-    std::cout << termBlue << "Rodou o processo de id " << termBold << this->id << termReset << termBlue << " faltam: " << this->timeLeft << " operações" << termReset << std::endl;
+    std::cout << termLightBlue << "Rodou o processo de id " << termBold << this->id << termReset << termLightBlue << " faltam: " << this->timeLeft << " operações" << termReset << std::endl;
 
     return this;
 }
