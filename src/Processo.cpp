@@ -8,11 +8,11 @@ Processo::Processo(int id, int startTime, int timeLeft,
                    int printer,
                    int scanner,
                    int modem,
-                   int disk, int filaDeExecucao) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
+                   int sata, int filaDeExecucao) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
                                                    memory(memory),
                                                    scanner(scanner),
                                                    modem(modem),
-                                                   disk(disk), filaDeExecucao(filaDeExecucao)
+                                                   sata(sata), filaDeExecucao(filaDeExecucao)
 {
     isPronto = true;
     cpuTimeCurrentList = 0;

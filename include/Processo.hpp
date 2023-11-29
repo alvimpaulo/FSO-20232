@@ -11,7 +11,7 @@ public:
              int printer,
              int scanner,
              int modem,
-             int disk, int filaDeExecucao);
+             int sata, int filaDeExecucao);
     int id;
     int timeLeft;
     int startTime;
@@ -20,7 +20,7 @@ public:
     int printer;
     int scanner;
     int modem;
-    int disk;
+    int sata;
     int isPronto;
     unsigned long long cpuTimeCurrentList;
     int filaDeExecucao;

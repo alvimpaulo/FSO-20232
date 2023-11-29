@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
                          << "Utilizacao de impressora: " << newProcess->printer << endl
                          << "Utilizacao de scanner: " << newProcess->scanner << endl
                          << "Utilizacao de modem: " << newProcess->modem << endl
-                         << "Utilizacao de sata: " << newProcess->disk << endl;
+                         << "Utilizacao de sata: " << newProcess->sata << endl;
                     processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
                          << "Utilizacao de impressora: " << newProcess->printer << endl
                          << "Utilizacao de scanner: " << newProcess->scanner << endl
                          << "Utilizacao de modem: " << newProcess->modem << endl
-                         << "Utilizacao de sata: " << newProcess->disk << endl;
+                         << "Utilizacao de sata: " << newProcess->sata << endl;
                     switch (newProcess->priority)
                     {
                     case 1:
