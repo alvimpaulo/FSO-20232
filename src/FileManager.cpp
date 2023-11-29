@@ -1,4 +1,5 @@
 #include "FileManager.hpp"
+#include <stdlib.h>
 
 FileManager& FileManager::GetInstance(){
     if(instance == nullptr){
@@ -7,7 +8,7 @@ FileManager& FileManager::GetInstance(){
     return *instance;
 }
 
-FileManager::FileManager(int size, int blockSize): storage(size, std::pair<int, std::vector<bool>>(std::vector<bool>(blockSize, 0))){
+FileManager::FileManager(int size, int blockSize): storage(size, std::pair<bool, std::vector<bool>>(0, std::vector<bool>(blockSize, 0))){
     if(instance != nullptr){
         exit(1);
     }else{
@@ -17,7 +18,7 @@ FileManager::FileManager(int size, int blockSize): storage(size, std::pair<int, 
     this->blockSize = blockSize;
 }
 
-int FileManager::CreateFile(std::vector<bool> data){
+std::pair<int, int> FileManager::CreateFile(std::vector<bool> data){
     int fileSizeInBlocks = data.size() / blockSize;
     if((data.size() % blockSize) > 0){
         fileSizeInBlocks++;
@@ -41,7 +42,7 @@ int FileManager::CreateFile(std::vector<bool> data){
     // se nao achar sai e retorna -1
 
     if(freeAddress == -1){
-        return freeAddress;
+        return;
     }
 
     // escreve o arquivo no espaco encontrado
