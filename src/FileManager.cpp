@@ -1,110 +1,137 @@
 #include "FileManager.hpp"
 #include <stdlib.h>
+#include <algorithm>
+#include <iostream>
+#include <fstream>
+
+FileManager* FileManager::instance = nullptr;
+std::vector<std::vector<std::string>>* FileManager::initialValues = nullptr;
+
+static std::vector<std::vector<std::string>>* ReadInitialFile(std::string directory){
+    std::ifstream dataFile(directory);
+    if (!dataFile.is_open()) {
+        std::cout << "Erro ao abrir o arquivo" << std::endl;
+        exit(1);
+    }
+
+    std::string str;
+    std::vector<std::vector<std::string>>* openedFile = new std::vector<std::vector<std::string>>();
+
+    unsigned int i = 0;
+    while(std::getline(dataFile, str)){
+        openedFile->push_back({});
+        openedFile->at(i).push_back({});
+        unsigned int j = 0;
+        char lastChar = 0;
+        for(char it : str){
+            if(it != '\n' && it != '\r'){
+                if(it != ','){
+                    if(it != ' ' && it != '\t'){
+                        openedFile->at(i).at(j) += it;
+                    }
+                }
+                else{
+                    if(lastChar != it){
+                        openedFile->at(i).push_back({});
+                        ++j;
+                    }
+                }
+                lastChar = it;
+            }
+        }
+        ++i;
+    }
+    return openedFile;
+}
 
 FileManager& FileManager::GetInstance(){
     if(instance == nullptr){
-        instance = new FileManager(1024, 8);
+        initialValues = ReadInitialFile("files.txt");
+        instance = new FileManager(std::stoi(initialValues->at(0).at(0)));
     }
     return *instance;
 }
 
-FileManager::FileManager(int size, int blockSize): storage(size, std::pair<bool, std::vector<bool>>(0, std::vector<bool>(blockSize, 0))){
+FileManager::FileManager(int size): storage(size, 0){
     if(instance != nullptr){
         exit(1);
     }else{
         instance = this;
     }
     this->size = size;
-    this->blockSize = blockSize;
+
+    for (int i = 2; i < std::stoi(initialValues->at(1).at(0)) + 2; ++i){
+        std::tuple<std::string, int, int> line(initialValues->at(i).at(0), std::stoi(initialValues->at(i).at(1)), std::stoi(initialValues->at(i).at(2)));
+        FAT.push_back(line);
+        for(int j = 0; j < std::get<2>(line); ++j){
+            storage.at(std::get<1>(line) + j) = true;
+        }
+    }
 }
 
-std::pair<int, int> FileManager::CreateFile(std::vector<bool> data){
-    int fileSizeInBlocks = data.size() / blockSize;
-    if((data.size() % blockSize) > 0){
-        fileSizeInBlocks++;
-    }
+int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress){
+
     int freeAddress = -1;
 
-    // procura espaco disponivel para o arquivo
-    for(int i = 0; i < size - fileSizeInBlocks; ++i){
-        bool ableToWrite = true;
-        for(int j = 0; j < fileSizeInBlocks; ++j){
-            if(storage.at(i).first == 1){
-                ableToWrite = false;
+    if(freeAddress == -1){
+
+        // procura espaco disponivel para o arquivo
+        for(int i = firstAddress; i < size - fileSize; ++i){
+            bool ableToWrite = true;
+            for(int j = 0; j < fileSize; ++j){
+                if(storage.at(i + j) == 1){
+                    ableToWrite = false;
+                }
             }
-        }
-        if(ableToWrite){
-            freeAddress = i;
-            break;
+            if(ableToWrite){
+                freeAddress = i;
+                break;
+            }
         }
     }
 
     // se nao achar sai e retorna -1
 
     if(freeAddress == -1){
-        return;
+        return freeAddress;
     }
 
     // escreve o arquivo no espaco encontrado
-    for(int i = 0; i < fileSizeInBlocks; ++i){
-        for(int j = 0; j < blockSize; ++j){
-            storage.at(freeAddress + i).first = 1;
-            if(i * blockSize + j < data.size()){
-                storage.at(freeAddress + i).second.at(j) = data.at(i * blockSize + j);
+    for(int i = freeAddress; i < fileSize; ++i){
+        storage.at(i) = 1;
+    }
+
+    std::tuple<std::string, int, int> line(fileName, freeAddress, fileSize);
+
+    FAT.push_back(line);
+
+    //retorna o endereço onde escreveu o arquivo
+    return freeAddress;
+}
+
+bool FileManager::DeleteFile(std::string fileName){
+    for(int i = 0; i < FAT.size(); ++i){
+        if(fileName.compare(std::get<0>(FAT.at(i))) == 0){
+            for(int j = 0; j < std::get<2>(FAT.at(i)); ++j){
+                storage.at(std::get<1>(FAT.at(i)) + j) = 0;
             }
-            else{
-                storage.at(freeAddress + i).second.at(j) = 0;
-            }
+            FAT.erase(FAT.begin() + i);
+            return true;
         }
     }
-
-    //retorna o endereço onde escreveu o arquivo e o tamanho do arquivo
-    std::pair<int, int> result = std::make_pair(freeAddress, fileSizeInBlocks);
-    return result;
+    return false;
 }
 
-bool FileManager::DeleteFile(int address, int size){
-    //verificando a validade da requisicao de delete
-    for(int i = 0; i < size; ++i){
-        if(!(storage.at(address + i).first)){
-            //requisicao de delete maior que o arquivo
-            return false;
-        }
+void FileManager::PrintStorage(){
+    for(int i = 0; i < storage.size(); ++i){
+        std::cout << storage.at(i) << ' ';
     }
-
-    //deletando o arquivo
-
-    for(int i = 0; i < size; ++i){
-        for(int j = 0; j < blockSize; ++j){
-            storage.at(address + i).second.at(j) = 0;
-            storage.at(address + i).first = false;
-        }
-    }
-    return true;
+    std::cout << std::endl;
 }
 
-std::vector<bool> FileManager::OpenFile(int address, int size){
-    if (address >= storage.size()){
-        exit(2);
+void FileManager::PrintFAT(){
+    for(int i = 0; i < FAT.size(); ++i){
+        std::cout << std::get<0>(FAT.at(i)) << std::get<1>(FAT.at(i)) << std::get<2>(FAT.at(i)) << '\n';
     }
-    std::vector<bool>file;
-
-    for(int i = 0; i < size; ++i){
-        for(int j = 0; j < blockSize; ++j){
-            file.push_back(storage.at(address + i).second.at(j));
-        }
-    }
-
-    return file;
 }
 
-bool FileManager::CheckIfFileExists(int address, int size){
-    //verificando a validade da requisicao de delete
-    for(int i = 0; i < size; ++i){
-        if(!(storage.at(address + i).first)){
-            //requisicao de delete maior que o arquivo
-            return false;
-        }
-    }
-    return true;
-}

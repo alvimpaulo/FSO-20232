@@ -34,38 +34,17 @@ Processo *Processo::run(int cpuTime)
 
     FileManager& fileManager = FileManager::GetInstance();
 
-    srand(time(0));
-    int instruction = rand()%4;
-    std::vector<bool> file;
-    int fileSize = rand() % 100;
-    std::pair<int, int> fileData;
-
-    switch(instruction){
-    case 0:
-        for(int i = 0; i < fileSize; ++i){
-            file.push_back(rand()%2);
+    for(int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)); i < fileManager.initialValues->size(); ++i){
+        if(std::stoi(fileManager.initialValues->at(i).at(0)) == this->id){
+            switch(std::stoi(fileManager.initialValues->at(i).at(1))){
+            case 0:
+                fileManager.CreateFile(fileManager.initialValues->at(i).at(2), std::stoi(fileManager.initialValues->at(i).at(3)));
+                break;
+            case 1:
+                fileManager.DeleteFile(fileManager.initialValues->at(i).at(2));
+                break;
+            }
         }
-        fileData = fileManager.CreateFile(file);
-        break;
-    case 1:
-        if(fileManager.CheckIfFileExists(rand() % 100, rand() % 100)){
-            std::cout << "Arquivo existe" << std::endl;
-        }
-        else{
-            std::cout << "Arquivo nao existe" << std::endl;
-        }
-        break;
-    case 2:
-        if(fileManager.DeleteFile(rand() % 100, rand() % 100)){
-            std::cout << "Arquivo deletado com sucesso" << std::endl;
-        }
-        else{
-            std::cout << "Arquivo nao valido" << std::endl;
-        }
-        break;
-    case 3:
-        file = fileManager.OpenFile(rand() % 100, rand() % 100);
-        break;
     }
 
     return this;
