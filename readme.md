@@ -16,6 +16,15 @@ Para compilar, espera-se que o usuário tenha em sua máquina o software `CMake`
 
 Para realizar a compilação, deve-se utilizar o comando `cmake .`, seguindo de `make` na raiz deste diretório.
 
+## Cores:
+Esse trabalho utiliza-se de cores no terminal para uma melhor visualização, é possível que as cores vistas no programa possam ser diferentes do esperado, caso o terminal utilizado não ofereça suporte a todas as cores 8/16 cores. 
+
+Em caso de dúvida, ver: [Este link](https://misc.flogisoft.com/bash/tip_colors_and_formatting#terminals_compatibility).
+
+Exemplo de output colorido:
+
+![Imagem mostrando output colorido](exemplo-output-terminal.png)
+
 ### Módulo de processos:
 A gerência de processo foi programada majoritariamente pelo aluno Paulo Alvim, e está contida principalmente nos arquivos `src/main.cpp`, e nos arquivos `Processo` e `ProcessoManager` nas suas devidas localizações. 
 

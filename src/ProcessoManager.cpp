@@ -74,12 +74,16 @@ bool ProcessoManager::alocarMemoriaProcessoUsuario(Processo *process)
 
 void ProcessoManager::run(int cpuTime)
 {
+    // Terminal colors
+    Color::Modifier termLightBlue(Color::FG_LIGHT_BLUE);
+    Color::Modifier termReset(Color::FG_DEFAULT);
+    Color::Modifier termUnderline(Color::FG_UNDERLINE);
     if (filaProcesosTempoRealAlocados.size() > 0)
     {
         auto currentProcess = filaProcesosTempoRealAlocados.front()->run(cpuTime);
         if (currentProcess->hasDied())
         {
-            cout << "Processo de tempo real Id: " << currentProcess->id << " morreu" << endl;
+            cout << termLightBlue << "Processo de tempo real Id: " << currentProcess->id << " morreu" << termReset << endl;
             filaProcesosTempoRealAlocados.pop_front();
             auto memorySpaces = &memoriaProcessosTempoReal.spaces;
 
@@ -168,7 +172,7 @@ void ProcessoManager::run(int cpuTime)
 
         if (currentProcess && currentProcess->hasDied())
         {
-            cout << "Processo de usuario Id: " << currentProcess->id << " morreu" << endl;
+            cout << termLightBlue << "Processo de usuario Id: " << currentProcess->id << " morreu" << termReset << endl;
 
             filasProcessosUsuarioAlocados[currentProcess->filaDeExecucao].pop_front();
 
