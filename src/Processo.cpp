@@ -22,6 +22,7 @@ Processo::Processo(int id, int startTime, int timeLeft,
     isPronto = true;
     cpuTimeCurrentList = 0;
     memorySpace = nullptr;
+    this->totalTime = timeLeft;
 }
 
 void Processo::setProcessoIsPronto(bool newState)
@@ -39,7 +40,7 @@ Processo *Processo::run(int cpuTime)
 
     FileManager &fileManager = FileManager::GetInstance();
 
-    for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) ; i < fileManager.initialValues->size(); ++i)
+    for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft); i < fileManager.initialValues->size(); ++i)
     {
         if (std::stoi(fileManager.initialValues->at(i).at(0)) == this->id)
         {

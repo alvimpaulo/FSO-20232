@@ -22,6 +22,7 @@ public:
     int modem;
     int sata;
     int isPronto;
+    int totalTime;
     unsigned long long cpuTimeCurrentList;
     int filaDeExecucao;
     MemorySpace* memorySpace;
