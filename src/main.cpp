@@ -17,10 +17,8 @@ int main(int argc, char *argv[])
 {
 
     // Terminal colors
-    Color::Modifier termRed(Color::FG_RED);
+    Color::Modifier termBackLightRed(Color::BG_LIGHT_RED);
     Color::Modifier termGreen(Color::FG_GREEN);
-    Color::Modifier termBlue(Color::FG_BLUE);
-    Color::Modifier termCyan(Color::FG_CYAN);
     Color::Modifier termLightYellow(Color::FG_LIGHT_YELLOW);
     Color::Modifier termReset(Color::FG_DEFAULT);
     Color::Modifier termBold(Color::FG_BOLD);
@@ -72,7 +70,7 @@ int main(int argc, char *argv[])
 
                 if (resultAlocation == false)
                 {
-                    cout << termRed << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << termReset << endl;
+                    cout << termLightYellow << termBackLightRed  << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << termReset << endl;
                     processosParaAlocar.push_back(newProcess);
                 }
                 else
@@ -98,7 +96,7 @@ int main(int argc, char *argv[])
                 if (resultAlocation == false)
                 {
 
-                    cout << termRed << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << termReset << endl;
+                    cout << termLightYellow << termBackLightRed << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << termReset << endl;
                     processosParaAlocar.push_back(newProcess);
                 }
                 else

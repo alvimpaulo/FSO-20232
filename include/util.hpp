@@ -35,6 +35,7 @@ namespace Color
         FG_LIGHT_MAGENTA = 95,
         FG_LIGHT_CYAN = 96,
         FG_WHITE = 97,
+        BG_LIGHT_RED = 101
     };
     class Modifier
     {
