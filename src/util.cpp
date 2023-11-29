@@ -2,6 +2,9 @@
 using namespace std;
 #include "util.hpp"
 
+//Terminal Colors https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
+
+
 std::vector<std::string> splitString(std::string str, char splitter)
 {
     std::vector<std::string> result;

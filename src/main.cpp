@@ -15,6 +15,17 @@ bool sortProcessos(Processo *a, Processo *b)
 
 int main(int argc, char *argv[])
 {
+
+    // Terminal colors
+    Color::Modifier termRed(Color::FG_RED);
+    Color::Modifier termGreen(Color::FG_GREEN);
+    Color::Modifier termBlue(Color::FG_BLUE);
+    Color::Modifier termCyan(Color::FG_CYAN);
+    Color::Modifier termLightYellow(Color::FG_LIGHT_YELLOW);
+    Color::Modifier termReset(Color::FG_DEFAULT);
+    Color::Modifier termBold(Color::FG_BOLD);
+    Color::Modifier termUnderline(Color::FG_UNDERLINE);
+
     unsigned long long cpuTime = 0;
     unsigned long long lastStartedProcessID = 0;
 
@@ -42,7 +53,7 @@ int main(int argc, char *argv[])
 
     while (processosParaAlocar.empty() == false || processManager.getProcessosAlocados().size() > 0)
     {
-        cout << "-------------- Ciclo de CPU ----------------- Tempo: " << cpuTime << " -------------------" << endl;
+        cout << termGreen << termBold << "-------------- Ciclo de CPU ----------------- Tempo: " << cpuTime << " -------------------" << termReset << endl;
 
         std::deque<Processo *> processosStartadosAgora;
         while (!processosParaAlocar.empty() && processosParaAlocar.front()->startTime <= cpuTime)
@@ -61,20 +72,22 @@ int main(int argc, char *argv[])
 
                 if (resultAlocation == false)
                 {
-                    cout << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << endl;
+                    cout << termRed << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << termReset << endl;
+                    processosParaAlocar.push_back(newProcess);
                 }
                 else
                 {
-                    cout << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << termReset << endl;
                     newProcess->cpuTimeCurrentList = cpuTime;
-                    cout << "PID: " << newProcess->id << endl
+                    cout << termLightYellow << "PID: " << newProcess->id << endl
                          << "Prioridade: " << newProcess->priority << endl
                          << "Offset de memoria: " << newProcess->memorySpace->offset << endl
                          << "Quantidade de blocos alocados: " << newProcess->memory << endl
                          << "Utilizacao de impressora: " << newProcess->printer << endl
                          << "Utilizacao de scanner: " << newProcess->scanner << endl
                          << "Utilizacao de modem: " << newProcess->modem << endl
-                         << "Utilizacao de sata: " << newProcess->sata << endl;
+                         << "Utilizacao de sata: " << newProcess->sata << endl
+                         << termReset << endl;
                     processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
@@ -85,21 +98,23 @@ int main(int argc, char *argv[])
                 if (resultAlocation == false)
                 {
 
-                    cout << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << endl;
+                    cout << termRed << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << termReset << endl;
+                    processosParaAlocar.push_back(newProcess);
                 }
                 else
                 {
-                    cout << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << "" << termReset << endl;
                     newProcess->cpuTimeCurrentList = cpuTime;
 
-                    cout << "PID: " << newProcess->id << endl
+                    cout << termLightYellow << "PID: " << newProcess->id << endl
                          << "Prioridade: " << newProcess->priority << endl
                          << "Offset de memoria: " << newProcess->memorySpace->offset << endl
                          << "Quantidade de blocos alocados: " << newProcess->memory << endl
                          << "Utilizacao de impressora: " << newProcess->printer << endl
                          << "Utilizacao de scanner: " << newProcess->scanner << endl
                          << "Utilizacao de modem: " << newProcess->modem << endl
-                         << "Utilizacao de sata: " << newProcess->sata << endl;
+                         << "Utilizacao de sata: " << newProcess->sata << endl
+                         << termReset << endl;
                     switch (newProcess->priority)
                     {
                     case 1:

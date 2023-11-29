@@ -1,6 +1,7 @@
 #include "Processo.hpp"
 #include "iostream"
 #include "FileManager.hpp"
+#include "util.hpp"
 
 Processo::Processo(int id, int startTime, int timeLeft,
                    int priority,
@@ -32,7 +33,10 @@ void Processo::setProcessoIsPronto(bool newState)
 
 Processo *Processo::run(int cpuTime)
 {
-    // FAZER IO E ARQUIVOS AQUI
+    // Terminal colors
+    Color::Modifier termBlue(Color::FG_BLUE);
+    Color::Modifier termReset(Color::FG_DEFAULT);
+    Color::Modifier termBold(Color::FG_BOLD);
 
     // ARQUIVOS
 
@@ -40,7 +44,8 @@ Processo *Processo::run(int cpuTime)
 
     int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft);
 
-    if(i < fileManager.initialValues->size()){
+    if (i < fileManager.initialValues->size())
+    {
         if (std::stoi(fileManager.initialValues->at(i).at(0)) == this->id)
         {
             switch (std::stoi(fileManager.initialValues->at(i).at(1)))
@@ -62,7 +67,7 @@ Processo *Processo::run(int cpuTime)
     // }
 
     this->timeLeft--;
-    std::cout << "Rodou o processo de id " << this->id << " faltam: " << this->timeLeft << " operações" << std::endl;
+    std::cout << termBlue << "Rodou o processo de id " << termBold << this->id << termReset << termBlue << " faltam: " << this->timeLeft << " operações" << termReset << std::endl;
 
     return this;
 }
