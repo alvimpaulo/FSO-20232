@@ -6,6 +6,7 @@ using namespace std;
 #include "Processo.hpp"
 #include "ProcessoManager.hpp"
 #include "util.hpp"
+#include "FileManager.hpp"
 
 bool sortProcessos(Processo *a, Processo *b)
 {
@@ -122,6 +123,9 @@ int main(int argc, char *argv[])
         processManager.run(cpuTime);
         cpuTime++;
     }
+
+    FileManager::GetInstance().PrintStorage();
+    FileManager::GetInstance().PrintFAT();
 
     return 0;
 }
