@@ -1,10 +1,16 @@
 
 #include "ProcessoManager.hpp"
 
+bool comparatorSJF(Processo *a, Processo *b)
+{
+    return a->timeLeft < b->timeLeft;
+}
+
 ProcessoManager ::ProcessoManager(/* args */) : memoriaProcessosTempoReal(64), memoriaProcessosUsuario(960)
 {
     this->filaProcesosTempoRealAlocados = {};
     this->filasProcessosUsuarioAlocados = {{}, {}, {}};
+    this->ioManager = new IOManager();
 }
 
 bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
@@ -32,7 +38,7 @@ bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
             break;
         }
     }
-    
+
     return _HasSpace;
 }
 
@@ -110,15 +116,54 @@ void ProcessoManager::run(int cpuTime)
         Processo *currentProcess = nullptr;
         if (filasProcessosUsuarioAlocados[0].size() > 0)
         {
-            currentProcess = filasProcessosUsuarioAlocados[0].front()->run(cpuTime);
+            Processo *shortestProcessWithIOOpen = nullptr;
+            sort(filasProcessosUsuarioAlocados[0].begin(), filasProcessosUsuarioAlocados[0].end(), comparatorSJF);
+
+            for (size_t i = 0; i < filasProcessosUsuarioAlocados[0].size(); i++)
+            {
+                currentProcess = filasProcessosUsuarioAlocados[0][i];
+
+                if (ioManager->isProcessGoodToRun(currentProcess))
+                {
+                    shortestProcessWithIOOpen = currentProcess;
+                    break;
+                }
+            }
+            currentProcess = shortestProcessWithIOOpen->run(cpuTime);
         }
-        else if (filasProcessosUsuarioAlocados[1].size() > 0)
+        if (currentProcess == nullptr && filasProcessosUsuarioAlocados[1].size() > 0)
         {
-            currentProcess = filasProcessosUsuarioAlocados[1].front()->run(cpuTime);
+            Processo *shortestProcessWithIOOpen = nullptr;
+            sort(filasProcessosUsuarioAlocados[1].begin(), filasProcessosUsuarioAlocados[1].end(), comparatorSJF);
+
+            for (size_t i = 0; i < filasProcessosUsuarioAlocados[1].size(); i++)
+            {
+                currentProcess = filasProcessosUsuarioAlocados[1][i];
+
+                if (ioManager->isProcessGoodToRun(currentProcess))
+                {
+                    shortestProcessWithIOOpen = currentProcess;
+                    break;
+                }
+            }
+            currentProcess = shortestProcessWithIOOpen->run(cpuTime);
         }
-        else if (filasProcessosUsuarioAlocados[2].size() > 0)
+        if (currentProcess == nullptr && filasProcessosUsuarioAlocados[2].size() > 0)
         {
-            currentProcess = filasProcessosUsuarioAlocados[2].front()->run(cpuTime);
+            Processo *shortestProcessWithIOOpen = nullptr;
+            sort(filasProcessosUsuarioAlocados[2].begin(), filasProcessosUsuarioAlocados[2].end(), comparatorSJF);
+
+            for (size_t i = 0; i < filasProcessosUsuarioAlocados[2].size(); i++)
+            {
+                currentProcess = filasProcessosUsuarioAlocados[2][i];
+
+                if (ioManager->isProcessGoodToRun(currentProcess))
+                {
+                    shortestProcessWithIOOpen = currentProcess;
+                    break;
+                }
+            }
+            currentProcess = shortestProcessWithIOOpen->run(cpuTime);
         }
 
         if (currentProcess && currentProcess->hasDied())
@@ -126,6 +171,11 @@ void ProcessoManager::run(int cpuTime)
             cout << "Processo de usuario Id: " << currentProcess->id << " morreu" << endl;
 
             filasProcessosUsuarioAlocados[currentProcess->filaDeExecucao].pop_front();
+
+            // Se o processo morreu, limpar as IO.
+
+            ioManager->freeIOFromDeadProcess(currentProcess);
+
             auto memorySpaces = &memoriaProcessosUsuario.spaces;
 
             auto processMemorySpace = find_if(memorySpaces->begin(), memorySpaces->end(), [currentProcess](MemorySpace *memory)
@@ -156,50 +206,11 @@ void ProcessoManager::run(int cpuTime)
 
                 (*processMemorySpace)->isOccupied = false;
                 (*processMemorySpace)->pidOwner = -1;
-
-
             }
         }
     }
-    vector<int> toErase;
-
     // Process Aging
-    for (size_t i = 0; i < filasProcessosUsuarioAlocados[1].size(); i++)
-    {
-        if (cpuTime - filasProcessosUsuarioAlocados[1][i]->cpuTimeCurrentList >= 30)
-        {
-            toErase.push_back(i);
-        }
-    }
-    for (size_t i = 0; i < toErase.size(); i++)
-    {
-        auto process = filasProcessosUsuarioAlocados[1][toErase[i] - i];
-        process->cpuTimeCurrentList = cpuTime;
-        (process->filaDeExecucao)--;
-        filasProcessosUsuarioAlocados[1].erase(filasProcessosUsuarioAlocados[1].begin() + toErase[i] - i);
-        filasProcessosUsuarioAlocados[0].push_back(process);
-    }
-
-    toErase.clear();
-    for (size_t i = 0; i < filasProcessosUsuarioAlocados[2].size(); i++)
-    {
-        if (cpuTime - filasProcessosUsuarioAlocados[2][i]->cpuTimeCurrentList >= 20)
-        {
-            toErase.push_back(i);
-        }
-    }
-
-    for (size_t i = 0; i < toErase.size(); i++)
-    {
-        auto process = filasProcessosUsuarioAlocados[2][toErase[i] - i];
-        process->cpuTimeCurrentList = cpuTime;
-        (process->filaDeExecucao)--;
-        filasProcessosUsuarioAlocados[2].erase(filasProcessosUsuarioAlocados[2].begin() + toErase[i] - i);
-        filasProcessosUsuarioAlocados[1].push_back(process);
-    }
-
-    toErase.clear();
-
+    this->ageProcesses(cpuTime);
     // End of run
     cout << endl;
     // cout << "-------------- Fim do Ciclo de CPU ----------- Tempo: " << cpuTime << " --------------------" << endl;
@@ -222,4 +233,46 @@ vector<Processo *> ProcessoManager::getProcessosAlocados()
         }
     }
     return returnVector;
+}
+
+void ProcessoManager::ageProcesses(int cpuTime)
+{
+    vector<int> toErase; // Vetor para guardar quais processos serao apagados da lista 2
+
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[1].size(); i++)
+    {
+        if (cpuTime - filasProcessosUsuarioAlocados[1][i]->cpuTimeCurrentList >= 30)
+        {
+            toErase.push_back(i);
+        }
+    }
+    for (size_t i = 0; i < toErase.size(); i++)
+    {
+        auto process = filasProcessosUsuarioAlocados[1][toErase[i] - i];
+        process->cpuTimeCurrentList = cpuTime;
+        (process->filaDeExecucao)--;
+        filasProcessosUsuarioAlocados[1].erase(filasProcessosUsuarioAlocados[1].begin() + toErase[i] - i);
+        filasProcessosUsuarioAlocados[0].push_back(process);
+    }
+
+    toErase.clear(); // Limpando o vetor para guardar quais serão apagados da lista 3
+
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[2].size(); i++)
+    {
+        if (cpuTime - filasProcessosUsuarioAlocados[2][i]->cpuTimeCurrentList >= 20)
+        {
+            toErase.push_back(i);
+        }
+    }
+
+    for (size_t i = 0; i < toErase.size(); i++)
+    {
+        auto process = filasProcessosUsuarioAlocados[2][toErase[i] - i];
+        process->cpuTimeCurrentList = cpuTime;
+        (process->filaDeExecucao)--;
+        filasProcessosUsuarioAlocados[2].erase(filasProcessosUsuarioAlocados[2].begin() + toErase[i] - i);
+        filasProcessosUsuarioAlocados[1].push_back(process);
+    }
+
+    toErase.clear();
 }

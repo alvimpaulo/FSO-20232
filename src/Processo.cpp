@@ -8,12 +8,17 @@ Processo::Processo(int id, int startTime, int timeLeft,
                    int printer,
                    int scanner,
                    int modem,
-                   int sata, int filaDeExecucao) : id(id), timeLeft(timeLeft), startTime(startTime), priority(priority),
-                                                   memory(memory),
-                                                   scanner(scanner),
-                                                   modem(modem),
-                                                   sata(sata), filaDeExecucao(filaDeExecucao)
+                   int sata, int filaDeExecucao)
 {
+    this->id = id;
+    this->timeLeft = timeLeft;
+    this->startTime = startTime;
+    this->priority = priority;
+    this->memory = memory;
+    this->scanner = scanner;
+    this->modem = modem;
+    this->sata = sata;
+    this->filaDeExecucao = filaDeExecucao;
     isPronto = true;
     cpuTimeCurrentList = 0;
     memorySpace = nullptr;
@@ -30,13 +35,16 @@ Processo *Processo::run(int cpuTime)
     std::cout << "Rodou o processo de id " << this->id << " faltam: " << this->timeLeft << " operações" << std::endl;
     // FAZER IO E ARQUIVOS AQUI
 
-    //ARQUIVOS
+    // ARQUIVOS
 
-    FileManager& fileManager = FileManager::GetInstance();
+    FileManager &fileManager = FileManager::GetInstance();
 
-    for(int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)); i < fileManager.initialValues->size(); ++i){
-        if(std::stoi(fileManager.initialValues->at(i).at(0)) == this->id){
-            switch(std::stoi(fileManager.initialValues->at(i).at(1))){
+    for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)); i < fileManager.initialValues->size(); ++i)
+    {
+        if (std::stoi(fileManager.initialValues->at(i).at(0)) == this->id)
+        {
+            switch (std::stoi(fileManager.initialValues->at(i).at(1)))
+            {
             case 0:
                 fileManager.CreateFile(fileManager.initialValues->at(i).at(2), std::stoi(fileManager.initialValues->at(i).at(3)));
                 break;

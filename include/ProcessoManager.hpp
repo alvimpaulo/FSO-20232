@@ -5,6 +5,7 @@
 #include "util.hpp"
 #include "MemorySpace.hpp"
 #include "MemoryVector.hpp"
+#include "IOManager.hpp"
 
 using namespace std;
 
@@ -22,4 +23,6 @@ public:
     bool alocarMemoriaProcessoUsuario(Processo* process);
     void run(int cpuTime);
     vector<Processo*> getProcessosAlocados();
+    IOManager* ioManager;
+    void ageProcesses(int cpuTime);
 };

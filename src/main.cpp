@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     cout << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    newProcess->cpuTimeCurrentList = cpuTime;
                     cout << "PID: " << newProcess->id << endl
                          << "Prioridade: " << newProcess->priority << endl
                          << "Offset de memoria: " << newProcess->memorySpace->offset << endl
@@ -88,6 +89,8 @@ int main(int argc, char *argv[])
                 else
                 {
                     cout << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << endl;
+                    newProcess->cpuTimeCurrentList = cpuTime;
+
                     cout << "PID: " << newProcess->id << endl
                          << "Prioridade: " << newProcess->priority << endl
                          << "Offset de memoria: " << newProcess->memorySpace->offset << endl
