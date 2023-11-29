@@ -46,7 +46,7 @@ static std::vector<std::vector<std::string>>* ReadInitialFile(std::string direct
 
 FileManager& FileManager::GetInstance(){
     if(instance == nullptr){
-        initialValues = ReadInitialFile("../files.txt");
+        initialValues = ReadInitialFile("files.txt");
         instance = new FileManager(std::stoi(initialValues->at(0).at(0)));
     }
     return *instance;
