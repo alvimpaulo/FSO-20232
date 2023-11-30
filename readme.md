@@ -16,6 +16,10 @@ Para compilar, espera-se que o usuário tenha em sua máquina o software `CMake`
 
 Para realizar a compilação, deve-se utilizar o comando `cmake .`, seguindo de `make` na raiz deste diretório.
 
+## Execução:
+
+Para rodar o programa corretamente, um arquivo com o nome `processes.txt` deve estar na mesma pasta a qual está presente o executável gerado pela compilação assim como um arquivo chamado `files.txt`. O arquivo processes indica quais processos serão rodados pelo sistema e o arquivo files indica o tamanho e operações do sistema de arquivo.
+
 ## Cores:
 Esse trabalho utiliza-se de cores no terminal para uma melhor visualização, é possível que as cores vistas no programa possam ser diferentes do esperado, caso o terminal utilizado não ofereça suporte a todas as cores 8/16 cores. 
 
