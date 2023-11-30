@@ -36,8 +36,6 @@ A principal classe que roda o escalonador e outras gerências é a `ProcessoMana
 ### Módulo de filas:
 O Módulo de filas também está presente principalmente no arquivo `ProcessoManager`, que mantém 3 filas de prioridade para processos de usuário além de uma fila de processos em tempo real, que rodam sem preempção.
 
-
-
 O algoritmo para os processos de tempo real é um FIFO sem preempção e também sem a possibilidade de serem adquiridos recursos.
 
 O _aging_ é realizado nesse mesmo arquivo, através da função  `ProcessoManager::ageProcesses` e para sua lógica, caso um processo passe 20 tempos de processador na fila de indice 3, ele é rebaixado para a prioridade 2, caso ele passe 30 tempos de processador na fila de prioridade 2, ele é rebaixado para a fila de prioridade 1, onde ele não pode mais ser rebaixado e terá que aguardar sua vez de rodar nessa fila.

@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     {
         lineCount++;
         auto splitedInfo = splitString(processInfo, ',');
-        auto newProcess = new Processo(++lastStartedProcessID, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]), stoi(splitedInfo[1]) - 1);
+        auto newProcess = new Processo(lastStartedProcessID++, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]), stoi(splitedInfo[1]) - 1);
         processosParaAlocar.push_back(newProcess);
     }
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << " no tempo: " << cpuTime << termReset << endl;
+                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de tempo real de id: " << newProcess->id << termReset << endl;
                     newProcess->cpuTimeCurrentList = cpuTime;
                     cout << termLightYellow << "PID: " << newProcess->id << endl
                          << "Prioridade: " << newProcess->priority << endl
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << " no tempo: " << cpuTime << "" << termReset << endl;
+                    cout << termLightYellow << termBold << termUnderline << "Aloquei memoria para o processo de usuário de id: " << newProcess->id << termReset << endl;
                     newProcess->cpuTimeCurrentList = cpuTime;
 
                     cout << termLightYellow << "PID: " << newProcess->id << endl
