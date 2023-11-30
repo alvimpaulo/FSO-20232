@@ -1,5 +1,8 @@
 #pragma once
 #include "MemorySpace.hpp"
+#include <bits/stdc++.h>
+
+using namespace std;
 
 class Processo
 {
@@ -25,7 +28,8 @@ public:
     int totalTime;
     unsigned long long cpuTimeCurrentList;
     int filaDeExecucao;
-    MemorySpace* memorySpace;
+    MemorySpace *memorySpace;
+    vector<vector<string>> fileInstructions;
 
     void setProcessoIsPronto(bool newState);
     Processo *run(int cpuTime);

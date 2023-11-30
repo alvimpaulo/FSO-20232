@@ -24,6 +24,7 @@ Processo::Processo(int id, int startTime, int timeLeft,
     cpuTimeCurrentList = 0;
     memorySpace = nullptr;
     this->totalTime = timeLeft;
+    this->fileInstructions = {};
 }
 
 void Processo::setProcessoIsPronto(bool newState)
@@ -38,33 +39,29 @@ Processo *Processo::run(int cpuTime)
     Color::Modifier termReset(Color::FG_DEFAULT);
     Color::Modifier termBold(Color::FG_BOLD);
 
+    std::cout << termLightBlue << "Rodando o processo de id " << termBold << this->id << termReset << endl;
+
     // ARQUIVOS
 
     FileManager &fileManager = FileManager::GetInstance();
 
-    int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft);
-
-    if (i < fileManager.initialValues->size())
+    auto currentOperationIndex = (totalTime - timeLeft);
+    if (currentOperationIndex < fileInstructions.size())
     {
-        if (std::stoi(fileManager.initialValues->at(i).at(0)) == this->id)
+        auto currentOperation = fileInstructions[currentOperationIndex];
+
+        switch (std::stoi(currentOperation[1]))
         {
-            switch (std::stoi(fileManager.initialValues->at(i).at(1)))
-            {
-            case 0:
-                std::cout << "Tentando executar criacao de arquivo" << std::endl;
-                fileManager.CreateFile(fileManager.initialValues->at(i).at(2), std::stoi(fileManager.initialValues->at(i).at(3)));
-                break;
-            case 1:
-                std::cout << "Tentando executar delecao de arquivo" << std::endl;
-                fileManager.DeleteFile(fileManager.initialValues->at(i).at(2));
-                break;
-            }
+        case 0:
+            std::cout << termLightBlue << "Tentando executar criacao de arquivo" << termReset << std::endl;
+            fileManager.CreateFile(currentOperation[2], std::stoi(currentOperation[3]));
+            break;
+        case 1:
+            std::cout << termLightBlue << "Tentando executar delecao de arquivo" << termReset << std::endl;
+            fileManager.DeleteFile(currentOperation[2]);
+            break;
         }
     }
-
-    // for (int i = 2 + std::stoi(fileManager.initialValues->at(1).at(0)) + (this->totalTime - this->timeLeft); i < fileManager.initialValues->size(); ++i)
-    // {
-    // }
 
     this->timeLeft--;
     std::cout << termLightBlue << "Rodou o processo de id " << termBold << this->id << termReset << termLightBlue << " faltam: " << this->timeLeft << " operações" << termReset << std::endl;

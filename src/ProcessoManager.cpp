@@ -1,9 +1,20 @@
 
 #include "ProcessoManager.hpp"
 
+ProcessoManager *ProcessoManager::instance = nullptr;
+
 bool comparatorSJF(Processo *a, Processo *b)
 {
     return a->timeLeft < b->timeLeft;
+}
+
+
+ProcessoManager* ProcessoManager::getInstance(){
+    if (instance == nullptr)
+    {
+        instance = new ProcessoManager();
+    }
+    return instance;
 }
 
 ProcessoManager ::ProcessoManager(/* args */) : memoriaProcessosTempoReal(64), memoriaProcessosUsuario(960)
@@ -11,6 +22,7 @@ ProcessoManager ::ProcessoManager(/* args */) : memoriaProcessosTempoReal(64), m
     this->filaProcesosTempoRealAlocados = {};
     this->filasProcessosUsuarioAlocados = {{}, {}, {}};
     this->ioManager = new IOManager();
+    this->processosParaAlocar = {};
 }
 
 bool ProcessoManager::alocarMemoriaProcessoTempoReal(Processo *process)
@@ -279,4 +291,45 @@ void ProcessoManager::ageProcesses(int cpuTime)
     }
 
     toErase.clear();
+}
+
+Processo* ProcessoManager::getProcessById(int id){
+    for (size_t i = 0; i < processosParaAlocar.size(); i++)
+    {
+        if(processosParaAlocar[i]->id == id){
+            return processosParaAlocar[i];
+        }
+    }
+
+
+    for (size_t i = 0; i < filaProcesosTempoRealAlocados.size(); i++)
+    {
+        if(filaProcesosTempoRealAlocados[i]->id == id){
+            return filaProcesosTempoRealAlocados[i];
+        }
+    }
+
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[0].size(); i++)
+    {
+        if(filasProcessosUsuarioAlocados[0][i]->id == id){
+            return filasProcessosUsuarioAlocados[0][i];
+        }
+    }
+
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[1].size(); i++)
+    {
+        if(filasProcessosUsuarioAlocados[1][i]->id == id){
+            return filasProcessosUsuarioAlocados[1][i];
+        }
+    }
+
+    for (size_t i = 0; i < filasProcessosUsuarioAlocados[2].size(); i++)
+    {
+        if(filasProcessosUsuarioAlocados[2][i]->id == id){
+            return filasProcessosUsuarioAlocados[2][i];
+        }
+    }
+
+    return nullptr;
+    
 }

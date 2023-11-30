@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include "util.hpp"
+#include "ProcessoManager.hpp"
 
 FileManager *FileManager::instance = nullptr;
 std::vector<std::vector<std::string>> *FileManager::initialValues = nullptr;
@@ -18,40 +19,20 @@ static std::vector<std::vector<std::string>> *ReadInitialFile(std::string direct
     }
 
     std::string str;
-    std::vector<std::vector<std::string>> *openedFile = new std::vector<std::vector<std::string>>();
+    auto fileContentVector = new std::vector<std::vector<std::string>>();
 
-    unsigned int i = 0;
     while (std::getline(dataFile, str))
     {
-        openedFile->push_back({});
-        openedFile->at(i).push_back({});
-        unsigned int j = 0;
-        char lastChar = 0;
-        for (char it : str)
+        auto splittedInfo = splitString(str, ',');
+        for (size_t i = 0; i < splittedInfo.size(); i++)
         {
-            if (it != '\n' && it != '\r')
-            {
-                if (it != ',')
-                {
-                    if (it != ' ' && it != '\t')
-                    {
-                        openedFile->at(i).at(j) += it;
-                    }
-                }
-                else
-                {
-                    if (lastChar != it)
-                    {
-                        openedFile->at(i).push_back({});
-                        ++j;
-                    }
-                }
-                lastChar = it;
-            }
+            trim(splittedInfo[i]);
         }
-        ++i;
+
+        fileContentVector->push_back(splittedInfo);
     }
-    return openedFile;
+
+    return fileContentVector;
 }
 
 FileManager &FileManager::GetInstance()
@@ -85,13 +66,24 @@ FileManager::FileManager(int size) : storage(size, 0)
             storage.at(std::get<1>(line) + j) = true;
         }
     }
+    auto processManager = ProcessoManager::getInstance();
+    for (size_t i = stoi((*initialValues)[1][0]) + 2; i < initialValues->size(); i++)
+    {
+        auto operationProcessPid = stoi(initialValues->at(i)[0]);
+        auto operationProcess = processManager->getProcessById(operationProcessPid);
+        if (operationProcess != nullptr)
+        {
+            operationProcess->fileInstructions.push_back(initialValues->at(i));
+        }
+    }
 }
 
 int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress)
 {
-    Color::Modifier termMagenta(Color::FG_MAGENTA);
-    Color::Modifier termBackRed(Color::FG_MAGENTA, Color::BG_RED);
+    Color::Modifier termMagenta(Color::FG_LIGHT_MAGENTA);
+    Color::Modifier termBackRed(Color::FG_LIGHT_MAGENTA, Color::BG_RED);
     Color::Modifier termReset(Color::FG_DEFAULT);
+    Color::Modifier termBold(Color::FG_BOLD);
     int freeAddress = -1;
 
     if (freeAddress == -1)
@@ -120,7 +112,7 @@ int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress
 
     if (freeAddress == -1)
     {
-        std::cout << termBackRed << "Nao ha espaco para o arquivo" << termReset << std::endl;
+        std::cout << termBackRed << "Nao ha espaco para o arquivo " << termBold << fileName << termReset << std::endl;
         return freeAddress;
     }
 
@@ -140,9 +132,11 @@ int FileManager::CreateFile(std::string fileName, int fileSize, int firstAddress
 
 bool FileManager::DeleteFile(std::string fileName)
 {
-    Color::Modifier termMagenta(Color::FG_MAGENTA);
-    Color::Modifier termBackRed(Color::FG_MAGENTA, Color::BG_RED);
+    Color::Modifier termMagenta(Color::FG_LIGHT_MAGENTA);
+    Color::Modifier termBackRed(Color::FG_LIGHT_MAGENTA, Color::BG_RED);
+
     Color::Modifier termReset(Color::FG_DEFAULT);
+    Color::Modifier termBold(Color::FG_BOLD);
     for (int i = 0; i < FAT.size(); ++i)
     {
         if (fileName.compare(std::get<0>(FAT.at(i))) == 0)
@@ -156,13 +150,13 @@ bool FileManager::DeleteFile(std::string fileName)
         }
     }
 
-    std::cout << termBackRed  << "O arquivo a ser deletado nao foi encontrado" << termReset << std::endl;
+    std::cout << termBackRed << "O arquivo " << termBold << fileName << termReset << termBackRed << " a ser deletado nao foi encontrado" << termReset << std::endl;
     return false;
 }
 
 void FileManager::PrintStorage()
 {
-    Color::Modifier termMagenta(Color::FG_MAGENTA);
+    Color::Modifier termMagenta(Color::FG_LIGHT_MAGENTA);
     Color::Modifier termReset(Color::FG_DEFAULT);
     cout << termMagenta;
     for (int i = 0; i < storage.size(); ++i)
@@ -174,7 +168,7 @@ void FileManager::PrintStorage()
 
 void FileManager::PrintFAT()
 {
-    Color::Modifier termMagenta(Color::FG_MAGENTA);
+    Color::Modifier termMagenta(Color::FG_LIGHT_MAGENTA);
     Color::Modifier termReset(Color::FG_DEFAULT);
     cout << termMagenta;
     for (int i = 0; i < FAT.size(); ++i)

@@ -12,11 +12,13 @@ using namespace std;
 class ProcessoManager
 {
 private:
-    /* data */
-public:
     ProcessoManager(/* args */);
+    static ProcessoManager* instance;
+public:
+    
     deque<Processo*> filaProcesosTempoRealAlocados;
     vector<deque<Processo*>> filasProcessosUsuarioAlocados;
+    deque<Processo *> processosParaAlocar;
     MemoryVector memoriaProcessosTempoReal;
     MemoryVector memoriaProcessosUsuario;
     bool alocarMemoriaProcessoTempoReal(Processo* process);
@@ -25,4 +27,7 @@ public:
     vector<Processo*> getProcessosAlocados();
     IOManager* ioManager;
     void ageProcesses(int cpuTime);
+    Processo* getProcessById(int id);
+
+    static ProcessoManager* getInstance();
 };

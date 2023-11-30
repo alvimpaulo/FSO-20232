@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     unsigned long long cpuTime = 0;
     unsigned long long lastStartedProcessID = 0;
 
-    auto processManager = ProcessoManager();
+    ProcessoManager* processManager = ProcessoManager::getInstance();
 
     std::ifstream processesFile;
     if (argc == 1)
@@ -37,27 +37,25 @@ int main(int argc, char *argv[])
     std::string processInfo;
     long long lineCount = 1;
 
-    deque<Processo *> processosParaAlocar;
-
     while (getline(processesFile, processInfo))
     {
         lineCount++;
         auto splitedInfo = splitString(processInfo, ',');
         auto newProcess = new Processo(lastStartedProcessID++, stoi(splitedInfo[0]), stoi(splitedInfo[2]), stoi(splitedInfo[1]), stoi(splitedInfo[3]), stoi(splitedInfo[4]), stoi(splitedInfo[5]), stoi(splitedInfo[6]), stoi(splitedInfo[7]), stoi(splitedInfo[1]) - 1);
-        processosParaAlocar.push_back(newProcess);
+        processManager->processosParaAlocar.push_back(newProcess);
     }
 
-    sort(processosParaAlocar.begin(), processosParaAlocar.end(), sortProcessos);
+    sort(processManager->processosParaAlocar.begin(), processManager->processosParaAlocar.end(), sortProcessos);
 
-    while (processosParaAlocar.empty() == false || processManager.getProcessosAlocados().size() > 0)
+    while (processManager->processosParaAlocar.empty() == false || processManager->getProcessosAlocados().size() > 0)
     {
         cout << termGreen << termBold << "-------------- Ciclo de CPU ----------------- Tempo: " << cpuTime << " -------------------" << termReset << endl;
 
         std::deque<Processo *> processosStartadosAgora;
-        while (!processosParaAlocar.empty() && processosParaAlocar.front()->startTime <= cpuTime)
+        while (!processManager->processosParaAlocar.empty() && processManager->processosParaAlocar.front()->startTime <= cpuTime)
         {
-            processosStartadosAgora.push_back(processosParaAlocar.front());
-            processosParaAlocar.pop_front();
+            processosStartadosAgora.push_back(processManager->processosParaAlocar.front());
+            processManager->processosParaAlocar.pop_front();
         }
         while (processosStartadosAgora.empty() == false)
         {
@@ -66,13 +64,13 @@ int main(int argc, char *argv[])
 
             if (newProcess->priority == 0)
             {
-                auto resultAlocation = (processManager.alocarMemoriaProcessoTempoReal(newProcess));
+                auto resultAlocation = (processManager->alocarMemoriaProcessoTempoReal(newProcess));
 
                 if (resultAlocation == false)
                 {
                     cout << termBackRedForeYellow << "Não consegui alocar o processo de tempo real de id: " << newProcess->id << " porque não havia espaço na memoria de tempo-real" << termReset << endl;
                     if (newProcess->memory <= 64)
-                        processosParaAlocar.push_back(newProcess);
+                        processManager->processosParaAlocar.push_back(newProcess);
                 }
                 else
                 {
@@ -87,19 +85,19 @@ int main(int argc, char *argv[])
                          << "Utilizacao de modem: " << newProcess->modem << endl
                          << "Utilizacao de sata: " << newProcess->sata << endl
                          << termReset << endl;
-                    processManager.filaProcesosTempoRealAlocados.push_back(newProcess);
+                    processManager->filaProcesosTempoRealAlocados.push_back(newProcess);
                 }
             }
             else
             {
-                auto resultAlocation = processManager.alocarMemoriaProcessoUsuario(newProcess);
+                auto resultAlocation = processManager->alocarMemoriaProcessoUsuario(newProcess);
 
                 if (resultAlocation == false)
                 {
 
                     cout << termBackRedForeYellow << "Não consegui alocar o processo de id: " << newProcess->id << " porque não havia espaço na memoria de usuario" << termReset << endl;
                     if (newProcess->memory <= 960)
-                        processosParaAlocar.push_back(newProcess);
+                        processManager->processosParaAlocar.push_back(newProcess);
                 }
                 else
                 {
@@ -118,13 +116,13 @@ int main(int argc, char *argv[])
                     switch (newProcess->priority)
                     {
                     case 1:
-                        processManager.filasProcessosUsuarioAlocados[0].push_back(newProcess);
+                        processManager->filasProcessosUsuarioAlocados[0].push_back(newProcess);
                         break;
                     case 2:
-                        processManager.filasProcessosUsuarioAlocados[1].push_back(newProcess);
+                        processManager->filasProcessosUsuarioAlocados[1].push_back(newProcess);
                         break;
                     case 3:
-                        processManager.filasProcessosUsuarioAlocados[2].push_back(newProcess);
+                        processManager->filasProcessosUsuarioAlocados[2].push_back(newProcess);
 
                         break;
 
@@ -135,7 +133,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        processManager.run(cpuTime);
+        processManager->run(cpuTime);
         cpuTime++;
     }
 
